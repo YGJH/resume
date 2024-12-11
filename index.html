@@ -219,6 +219,7 @@
             font-weight: normal;
             font-size: 20px;
         }
+
         .headerPicture {
             /* border: solid; */
             /* border-width: 3px; */
@@ -227,6 +228,35 @@
             box-shadow: -5px -5px 10px rgb(0, 0, 0), 5px 5px 10px rgb(0, 0, 0);
             border-radius: 20px;
             /* margin-left: 20px; */
+        }
+        .ability-name {
+            text-align: left;
+            font-size: 20px;
+            width: 100px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+        td {
+            text-align: center;
+        }
+        .desc {
+            margin-bottom: 10px;
+            margin-top: 4px;
+            font-size: 14px;
+            color: #555;
         }
     </style>
 </head>
@@ -315,15 +345,31 @@
                 <div class="section__title">Certificate</div>
                 <div class="section__list">
                     <div class="section__list-item">
-                        <div class="name">IELTS</div>
+                        <div class="ability-name">IELTS</div>
                         <img src="ielts.png" style="width: auto ; height: 240px;">
                         <div class="desc">Though I am not so influence in English, but I consider it is sufficient to
                             handle most daliy situation.</div>
                     </div>
-                    <br>
+                    <br\>
                     <div class="section__list-item">
-                        <div class="name">CPE</div>
-                        <img src="cpe.png" style="width: 800px; height: 100px;">
+                        <div class="ability-name">CPE</div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>日期</th>
+                                    <th>排名</th>
+                                    <th>排名比例</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2024/10/15</td>
+                                    <td>4/7</td>
+                                    <td>3.21%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- <img src="cpe.png" style="width: 800px; height: 100px;"> -->
                         <div class="desc">just mean I have normal ability to programming</div>
                     </div>
                 </div>
