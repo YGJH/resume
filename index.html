@@ -20,9 +20,18 @@
             height: 100%;
         }
 
+        /* 定義CSS變數以統一配色 */
+        :root {
+            --primary-color: #1abc9c;
+            --secondary-color: #16a085;
+            --accent-color: #2980b9;
+            --background-color: #34495e;
+            --text-color: #ecf0f1;
+        }
+
         body {
             min-height: 100%;
-            background-color: rgb(64, 64, 73);
+            background-color: var(--background-color); /* 使用CSS變數 */
             font-family: 'Lato', sans-serif;
             font-weight: 400;
             font-size: 14px;
@@ -35,7 +44,7 @@
             border-radius: 20px;
             box-shadow: -5px -5px 10px rgb(0, 0, 0), 5px 5px 10px rgb(0, 0, 0);
             max-width: 900px;
-            background: #5b565c;
+            background: var(--background-color); /* 使用CSS變數 */
             margin: 0px auto 0px;
             /* box-shadow: 1px 1px 2px #DAD7D7; */
             padding: 40px;
@@ -52,6 +61,7 @@
             font-size: 40px;
             text-transform: uppercase;
             margin-bottom: 5px;
+            font-family: 'Montserrat', sans-serif; /* 更換名字字體 */
         }
 
         .first-name {
@@ -128,9 +138,11 @@
         .section__title {
             font-size: large;
             letter-spacing: 2px;
-            color: #54AFE4;
+            color: var(--primary-color); /* 使用CSS變數 */
             font-weight: bold;
             text-transform: uppercase;
+            border-bottom: 2px solid var(--accent-color); /* 使用CSS變數 */
+            padding-bottom: 5px; /* 增加內邊距 */
         }
 
         .section__list-item:first-of-type {
@@ -139,6 +151,28 @@
 
         .section__list-item:last-of-type {
             margin-bottom: 40px;
+        }
+
+        .section__list-item {
+            margin-bottom: 20px; /* 增加項目間距 */
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideIn 0.5s forwards;
+        }
+
+        .section__list-item:nth-child(odd) {
+            animation-delay: 0.2s;
+        }
+
+        .section__list-item:nth-child(even) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .right {
@@ -166,13 +200,14 @@
 
         a {
             text-decoration: none;
-            color: #000;
+            color: var(--primary-color); /* 使用CSS變數 */
             font-style: italic;
+            transition: color 0.3s ease; /* 添加過渡效果 */
         }
 
         a:hover {
             text-decoration: underline;
-            color: #000;
+            color: var(--secondary-color); /* 使用CSS變數 */
         }
 
         .skills__item {
@@ -197,6 +232,9 @@
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             font-size: medium;
             color: #FFFFFF; /* 將描述文字顏色設為白色 */
+            background-color: transparent; /* 確保背景透明 */
+            clear: both; /* 清除浮動影響 */
+            margin-top: 10px; /* 增加邊距來防止遮蔽 */
         }
 
         .name {
@@ -219,6 +257,20 @@
             margin-left: 20px;
             font-weight: normal;
             font-size: 20px;
+            list-style: none; /* 移除列表樣式 */
+            position: relative;
+            padding-left: 20px;
+        }
+
+        li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color); /* 使用CSS變數 */
+        }
+
+        .skills__item ul li::before {
+            color: var(--primary-color); /* 使用CSS變數 */
         }
 
         .headerPicture {
@@ -227,9 +279,15 @@
             /* border-color: white; */
             border: #c0bebe solid 3px;
             box-shadow: -5px -5px 10px rgb(0, 0, 0), 5px 5px 10px rgb(0, 0, 0);
-            border-radius: 20px;
+            border-radius: 10px; /* 圓角 */
+            transition: transform 0.3s ease; /* 添加過渡效果 */
             /* margin-left: 20px; */
         }
+
+        .headerPicture:hover {
+            transform: scale(1.05); /* 懸停放大 */
+        }
+
         .ability-name {
             text-align: left;
             font-size: 20px;
@@ -238,14 +296,18 @@
             margin-bottom: 10px;
             margin-top: 20px;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             border-radius: 8px; /* 增加表格圓角 */
             overflow: hidden; /* 防止圓角失效 */
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 添加陰影 */
+            background-color: var(--text-color); /* 使用CSS變數 */
         }
-        th, td {
+
+        th,
+        td {
             border: 1px solid #ddd;
             padding: 12px; /* 增加內邊距 */
             background-color: #ffffff; /* 將表格背景色設為白色 */
@@ -253,27 +315,91 @@
             font-family: 'Arial', sans-serif; /* 更改表格字體 */
             transition: background-color 0.3s ease; /* 添加過渡效果 */
         }
+
         th {
-            background-color: #00796b; /* 更改標題背景色為深綠色 */
+            background-color: var(--primary-color); /* 使用CSS變數 */
             color: white; /* 標題文字顏色 */
             font-weight: bold; /* 加粗 */
         }
+
         td {
             text-align: center;
         }
+
         tr:nth-child(even) {
             background-color: #f9f9f9; /* 偶數行背景色 */
         }
+
         tr:hover {
-            background-color: #e0f7fa; /* 懸停行的背景色更改為淡藍色 */
+            background-color: var(--secondary-color); /* 使用CSS變數 */
         }
+
         .desc {
             margin-bottom: 10px;
             margin-top: 4px;
             font-size: 14px;
             color: #FFFFFF; /* 將描述文字顏色設為白色 */
         }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px; /* 減少內邊距以適應較小的螢幕 */
+                margin-top: 20px;
+            }
+
+            .full-name {
+                font-size: 30px; /* 調整名字字體大小 */
+            }
+
+            .position {
+                font-size: medium;
+            }
+
+            .section__title {
+                font-size: medium;
+            }
+
+            .left,
+            .right {
+                width: 100%; /* 使左右區塊在小螢幕上垂直排列 */
+                float: none;
+            }
+
+            table {
+                font-size: 12px; /* 調整表格字體大小 */
+            }
+
+            .contact-info,
+            .about,
+            .skills,
+            .interests {
+                text-align: center; /* 置中對齊 */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .full-name {
+                font-size: 24px;
+            }
+
+            .position {
+                font-size: small;
+            }
+
+            .section__title {
+                font-size: small;
+            }
+
+            table {
+                font-size: 10px;
+            }
+        }
+
+        /* 引入新的字體 */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
     </style>
+    <!-- 引入 Font Awesome 圖標庫 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
@@ -286,11 +412,15 @@
                 <span class="last-name">Zig-Sian</span>
             </div>
             <div class="contact-info">
-                <span class="email" style="color: white">Email: </span>
+                <span class="email" style="color: white"><i class="fas fa-envelope"></i> Email: </span>
                 <span class="email-val">jihuty@gmail.com</span>
                 <span class="separator"></span>
-                <strong class="phone" style="color: rgb(255, 255, 255)">Phone: </strong>
+                <strong class="phone" style="color: rgb(255, 255, 255)"><i class="fas fa-phone"></i> Phone: </strong>
                 <span class="phone-val">0916439130</span>
+                <span class="separator"></span>
+                <!-- 新增社群媒體連結 -->
+                <a href="https://github.com/YGJH" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.instagram.com/seaweed0123/" target="_blank"><i class="fab fa-instagram"></i></a>
             </div>
 
             <div>
