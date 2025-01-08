@@ -196,6 +196,7 @@
             float: left;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
             font-size: medium;
+            color: #FFFFFF; /* 將描述文字顏色設為白色 */
         }
 
         .name {
@@ -240,23 +241,37 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            border-radius: 8px; /* 增加表格圓角 */
+            overflow: hidden; /* 防止圓角失效 */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 添加陰影 */
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 12px; /* 增加內邊距 */
+            background-color: #ffffff; /* 將表格背景色設為白色 */
+            color: #000000; /* 將文字顏色設為黑色 */
+            font-family: 'Arial', sans-serif; /* 更改表格字體 */
+            transition: background-color 0.3s ease; /* 添加過渡效果 */
         }
         th {
-            background-color: #f2f2f2;
-            text-align: center;
+            background-color: #00796b; /* 更改標題背景色為深綠色 */
+            color: white; /* 標題文字顏色 */
+            font-weight: bold; /* 加粗 */
         }
         td {
             text-align: center;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* 偶數行背景色 */
+        }
+        tr:hover {
+            background-color: #e0f7fa; /* 懸停行的背景色更改為淡藍色 */
         }
         .desc {
             margin-bottom: 10px;
             margin-top: 4px;
             font-size: 14px;
-            color: #555;
+            color: #FFFFFF; /* 將描述文字顏色設為白色 */
         }
     </style>
 </head>
@@ -346,7 +361,27 @@
                 <div class="section__list">
                     <div class="section__list-item">
                         <div class="ability-name">IELTS</div>
-                        <img src="ielts.png" style="width: auto ; height: 240px;">
+                        <!-- <img src="ielts.png" style="width: auto ; height: 240px;"> -->
+                         <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Listening</th>
+                                    <th>Reading</th>
+                                    <th>Writing</th>
+                                    <th>Speaking</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2024/8/3</td>
+                                    <td>5.5</td>
+                                    <td>5.5</td>
+                                    <td>6.0</td>
+                                    <td>5.5</td>
+                                </tr>
+                            </tbody>
+                         </table>
                         <div class="desc">Though I am not so influence in English, but I consider it is sufficient to
                             handle most daliy situation.</div>
                     </div>
@@ -366,6 +401,11 @@
                                     <td>2024/10/15</td>
                                     <td>4/7</td>
                                     <td>3.21%</td>
+                                </tr>
+                                <tr>
+                                    <td>2024/12/10</td>
+                                    <td>4/7</td>
+                                    <td>3.5%</td>
                                 </tr>
                             </tbody>
                         </table>
