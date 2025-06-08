@@ -31,12 +31,28 @@
 
         body {
             min-height: 100%;
-            background-color: var(--background-color); /* 使用CSS變數 */
+            background: linear-gradient(-45deg, #34495e, #1abc9c, #2980b9, #16a085);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             font-family: 'Lato', sans-serif;
             font-weight: 400;
             font-size: 14px;
             line-height: 26px;
             padding-bottom: 50px;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .container {
@@ -62,6 +78,7 @@
             text-transform: uppercase;
             margin-bottom: 5px;
             font-family: 'Montserrat', sans-serif; /* 更換名字字體 */
+            animation: neonGlow 1.5s ease-in-out infinite alternate;
         }
 
         .first-name {
@@ -99,6 +116,19 @@
             flex-wrap: wrap;
             margin-right: 10px;
             text-decoration: underline;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .position::after {
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 0;
+            left: 0;
+            top: 0;
+            border-right: 2px solid var(--accent-color);
+            animation: typing 4s steps(20, end) infinite, blink 0.75s step-end infinite;
         }
 
         .about {
@@ -172,6 +202,32 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        @keyframes neonGlow {
+            from {
+                text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
+            }
+
+            to {
+                text-shadow: 0 0 20px var(--accent-color), 0 0 30px var(--accent-color);
+            }
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+            50% {
+                border-color: transparent;
             }
         }
 
