@@ -1,0 +1,130 @@
+% !TeX document-id = {86da647f-a1fe-4e65-a2e3-4ae5a22335d2}
+% !TEX program = xelatex
+\documentclass[10pt,a4paper]{article}
+\usepackage[top=13mm,bottom=12mm,left=15mm,right=15mm]{geometry}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+
+% Use fonts installed with this Windows environment.
+\setmainfont{Arial}
+\setCJKmainfont{Microsoft JhengHei}
+\setCJKmonofont{Microsoft JhengHei}
+\definecolor{navy}{HTML}{183348}
+\definecolor{teal}{HTML}{167C80}
+\definecolor{ink}{HTML}{263642}
+\definecolor{muted}{HTML}{3F4F5B}
+\definecolor{pale}{HTML}{F0F5F7}
+\definecolor{rulecolor}{HTML}{CCDCE2}
+\hypersetup{colorlinks=true,urlcolor=teal,pdftitle={楊子賢｜技術履歷},pdfauthor={楊子賢},pdfsubject={AI、機器學習與演算法}}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{2em}
+\setlist[itemize]{leftmargin=1.15em,label=\textcolor{teal}{\textbullet},itemsep=4pt,topsep=5pt,parsep=0pt,partopsep=0pt}
+
+\newcommand{\cvsection}[2]{%
+  {\color{navy}\fontsize{12}{16}\selectfont\bfseries #1\hfill
+  {\color{teal}\fontsize{7.2}{9}\selectfont #2}}\par
+  \vspace{3pt}{\color{rulecolor}\hrule height 0.6pt}\vspace{7pt}}
+\newcommand{\sideheading}[1]{\vspace{10pt}{\color{navy}\fontsize{10.5}{14}\selectfont\bfseries #1}\par\vspace{5pt}}
+\newcommand{\award}[2]{\textbf{#1}\par{\color{muted}#2}\par\vspace{5pt}}
+\newcommand{\projecttitle}[1]{{\color{navy}\fontsize{11.2}{15}\selectfont\bfseries #1}\par}
+\newcommand{\tech}[1]{\vspace{2pt}{\color{teal}\fontsize{8.2}{11}\selectfont #1}\par}
+
+\begin{document}
+\color{ink}
+
+\begin{minipage}[b]{0.53\textwidth}
+  {\color{navy}\fontsize{31}{38}\selectfont\bfseries 楊子賢}\par
+  \vspace{3pt}
+  {\color{muted}\fontsize{10}{13}\selectfont ZIH-SIAN YANG}
+\end{minipage}\hfill
+\begin{minipage}[b]{0.45\textwidth}
+  \raggedleft
+
+  \vspace{3pt}
+  {\color{muted}\fontsize{8.8}{11.8}\selectfont 國立臺灣海洋大學｜系所：資工系\par
+  \href{mailto:jihuty@gmail.com}{jihuty@gmail.com}｜\href{mailto:01257049@email.ntou.edu.tw}{01257049@email.ntou.edu.tw}\par
+  \href{https://github.com/YGJH}{github.com/YGJH}｜\href{https://www.kaggle.com/ygjh13}{kaggle.com/ygjh13}}
+\end{minipage}
+
+\vspace{8pt}
+{\color{teal}\hrule height 2pt}
+\vspace{12pt}
+
+\begin{minipage}[t]{51mm}
+\vspace{0pt}
+\begin{tcolorbox}[colback=pale,colframe=pale,boxrule=0pt,arc=2mm,
+  left=4mm,right=4mm,top=4mm,bottom=4mm,boxsep=0pt]
+\fontsize{9.4}{13.2}\selectfont
+\raggedright
+{\color{navy}\fontsize{11.2}{14.8}\selectfont\bfseries 重點}\par
+\vspace{5pt}
+\award{\textcolor{teal}{Kaggle Expert}}{PTCG AI Battle｜銀牌｜237／6,807\par Orbit Wars｜銅牌｜452／4,729}
+\award{\textcolor{teal}{第一作者研究}}{EF1-Constrained Nash Social Welfare\par 預印本；TAAI 2026 審查中}
+
+\sideheading{競賽與檢定}
+\award{NCPC 2025}{決賽佳作}
+\award{TOPC 2025}{銀獎}
+\award{CPE 2025}{5 題｜76／2,515（前 3\%）}
+\award{TOEIC (多益) 815 藍色}{2026 年}
+
+\sideheading{技能}
+\textbf{ML／研究}\par
+PyTorch、Transformer、PPO、W\&B\par
+\vspace{3pt}
+\textbf{演算法／系統}\par
+啟發式搜索、模仿學習、Python、Rust、C/C++
+
+\sideheading{學歷}
+\textbf{國立臺灣海洋大學}\par
+{\color{muted}系所：資工系}\par
+\vspace{5pt}
+\textbf{核心課程與成績}\par
+{\color{muted}作業系統 A｜計算機結構 A\par 演算法 A｜資料結構 A\par 計算機組織學 A-｜離散數學 A}\par
+\vspace{3pt}
+{\color{muted}\fontsize{8.6}{11.5}\selectfont 歷年排名｜班排名 21／52｜系排名 45／114 (39\%)}
+\end{tcolorbox}
+\end{minipage}\hfill
+\begin{minipage}[t]{121mm}
+\vspace{0pt}
+\fontsize{9.2}{13.5}\selectfont
+\cvsection{專案}{SELECTED PROJECTS}
+
+\projecttitle{Pokémon TCG 決策代理人}
+{\color{muted}Transformer 模仿學習系統｜Kaggle PTCG AI Battle 銀牌}\par
+\tech{PyTorch · Transformer · Pointer Network · Behavior Cloning · W\&B}
+\begin{itemize}
+  \item \textbf{Kaggle 銀牌（237／6,807）：}以端到端決策代理人直接銜接官方 C++ 遊戲引擎，完成競賽部署。
+  \item \textbf{準確率成果：}兩個牌組的 specialist 相對基準準確率增益達 \textbf{+20.5／+49.4 個百分點}；以 Transformer 編碼 46 個狀態 token，並為動態合法選項評分。
+  \item \textbf{可擴展訓練：}以數百萬個決策點訓練，整合 memory-mapped shard、GPU 特徵處理、bfloat16、EMA 與 Muon optimizer。
+\end{itemize}
+
+\vspace{7pt}
+\projecttitle{Orbit Wars 策略代理人}
+{\color{muted}動態幾何規劃與多波次策略｜Kaggle Orbit Wars 銅牌}\par
+\tech{Rust · Python · 啟發式搜尋 · 動態幾何規劃 · 貪婪最佳化}
+\begin{itemize}
+  \item \textbf{Kaggle 銅牌（452／4,729）：}設計自主策略代理人，在行星持續移動與敵方可能增援的環境中規劃攻防。
+  \item \textbf{未來狀態規劃：}預測軌道位置並求解 ETA 攔截；以抵達時的守軍、敵方增援風險與行星產能評估攻擊價值。
+  \item \textbf{即時決策與部署：}以 ROI 導向的貪婪法選擇多波次行動、保留前線防禦；採 Rust 擴充正式推論。
+\end{itemize}
+
+\vspace{8pt}
+\cvsection{研究成果}{RESEARCH}
+{\color{navy}\fontsize{9.8}{13}\selectfont\bfseries
+EF1-Constrained Nash Social Welfare with Identical Additive Valuations: Complexity, Guarantees, and Experiments\par}
+\vspace{4pt}
+\textbf{第一作者}\enspace\textcolor{muted}{｜2026｜預印本；已投稿 TAAI 2026，審查中}\par
+\vspace{3pt}
+探討不可分割物品分配中的 EF1 公平性與 Nash 社會福利；提出結合 PPO 與 EF1 動作遮罩的 PriorityNet，以逐步分配維持公平性。\par
+\vspace{3pt}
+\href{https://arxiv.org/abs/2609.03846}{\textbf{arXiv:2609.03846}}
+\end{minipage}
+
+\end{document}
