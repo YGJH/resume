@@ -8,7 +8,9 @@
 \usepackage{enumitem}
 \usepackage{tabularx}
 \usepackage{tcolorbox}
+\usepackage{graphicx}
 \usepackage{hyperref}
+\tcbuselibrary{skins}
 
 % Use fonts installed with this Windows environment.
 \setmainfont{Arial}
@@ -35,22 +37,31 @@
 \newcommand{\award}[2]{\textbf{#1}\par{\color{muted}#2}\par\vspace{5pt}}
 \newcommand{\projecttitle}[1]{{\color{navy}\fontsize{11.2}{15}\selectfont\bfseries #1}\par}
 \newcommand{\tech}[1]{\vspace{2pt}{\color{teal}\fontsize{8.2}{11}\selectfont #1}\par}
+% 大頭照：圓角裁切並加上細邊框
+\newcommand{\portraitwidth}{23mm}
+\newcommand{\portrait}[1]{%
+  \tcbincludegraphics[blankest,width=\portraitwidth,arc=1.6mm,
+    boxrule=0.8pt,colframe=rulecolor,
+    graphics options={width=\portraitwidth}]{#1}}
 
 \begin{document}
 \color{ink}
 
-\begin{minipage}[b]{0.53\textwidth}
+\begin{minipage}[b]{62mm}
   {\color{navy}\fontsize{31}{38}\selectfont\bfseries 楊子賢}\par
   \vspace{3pt}
   {\color{muted}\fontsize{10}{13}\selectfont ZIH-SIAN YANG}
 \end{minipage}\hfill
-\begin{minipage}[b]{0.45\textwidth}
+\begin{minipage}[b]{86mm}
   \raggedleft
 
   \vspace{3pt}
   {\color{muted}\fontsize{8.8}{11.8}\selectfont 國立臺灣海洋大學｜系所：資工系\par
   \href{mailto:jihuty@gmail.com}{jihuty@gmail.com}｜\href{mailto:01257049@email.ntou.edu.tw}{01257049@email.ntou.edu.tw}\par
   \href{https://github.com/YGJH}{github.com/YGJH}｜\href{https://www.kaggle.com/ygjh13}{kaggle.com/ygjh13}}
+\end{minipage}\hfill
+\begin{minipage}[b]{\portraitwidth}
+  \portrait{portrait.jpg}
 \end{minipage}
 
 \vspace{8pt}
@@ -81,6 +92,8 @@ PyTorch、Transformer、PPO、W\&B\par
 \textbf{演算法／系統}\par
 啟發式搜索、模仿學習、Python、Rust、C/C++
 
+
+
 \sideheading{學歷}
 \textbf{國立臺灣海洋大學}\par
 {\color{muted}系所：資工系}\par
@@ -94,15 +107,32 @@ PyTorch、Transformer、PPO、W\&B\par
 \begin{minipage}[t]{121mm}
 \vspace{0pt}
 \fontsize{9.2}{13.5}\selectfont
+\cvsection{研究成果}{RESEARCH HIGHLIGHT}
+{\color{navy}\fontsize{9.8}{13}\selectfont\bfseries
+EF1-Constrained Nash Social Welfare with Identical Additive Valuations: Complexity, Guarantees, and Experiments\par}
+\vspace{4pt}
+\textbf{第一作者}\enspace\textcolor{muted}{｜2026｜預印本；已投稿 TAAI 2026，審查中}\par
+\vspace{3pt}
+研究不可分割物品分配中，如何同時追求 \textbf{EF1（移除至多一件物品後無嫉妒）}公平性與 \textbf{Nash Social Welfare（NSW）}。聚焦於所有 agent 具有相同加法估值的設定：先刻畫 EF1 對福利的理論代價與近似保證，再將結果轉化為一個逐步分配時仍能保證公平、並由學習策略最佳化 welfare 的方法。\par
+\begin{itemize}
+\item \textbf{最適解與 EF1 相容：}證明若只要求最終 allocation 滿足 EF1，並不會犧牲最優 NSW，因為 maximum-NSW allocation 本身即為 EF1；但求精確最優解在計算上仍具困難。
+\item \textbf{任意 EF1 allocation 的福利保證：}當所有 goods 價值相同時，任何 EF1 allocation 皆為 NSW optimal；在 $\epsilon$-small-item condition 下，任何 EF1 allocation 均達 \textbf{$1-O(\epsilon^2)$} NSW approximation。
+\item \textbf{Sequential EF1 可行性：}一般加法估值下，每一步皆維持 EF1 甚至可能無解；對 identical valuations，證明每次將新 good 分給目前 utility 最低的 agent，即可永遠保持 EF1。
+\item \textbf{PriorityNet：}以 PPO 學習每一步 allocation decision，並設計 prospective EF1 action mask，預先排除會破壞 EF1 的 actions；因此 fairness 由 mask 保證，policy 僅在合法 actions 中提升 welfare。
+\item \textbf{實驗結果：}offline／online mean normalized NSW 分別為 \textbf{0.9911／0.9701}，皆接近 LPT greedy baseline；PriorityNet 在 individual instances 上具有較高 win rate。
+\end{itemize}
+\href{https://arxiv.org/abs/2609.03846}{\textbf{arXiv:2609.03846}}
+
+\vspace{8pt}
 \cvsection{專案}{SELECTED PROJECTS}
 
 \projecttitle{Pokémon TCG 決策代理人}
 {\color{muted}Transformer 模仿學習系統｜Kaggle PTCG AI Battle 銀牌}\par
 \tech{PyTorch · Transformer · Pointer Network · Behavior Cloning · W\&B}
 \begin{itemize}
-  \item \textbf{Kaggle 銀牌（237／6,807）：}以端到端決策代理人直接銜接官方 C++ 遊戲引擎，完成競賽部署。
-  \item \textbf{準確率成果：}兩個牌組的 specialist 相對基準準確率增益達 \textbf{+20.5／+49.4 個百分點}；以 Transformer 編碼 46 個狀態 token，並為動態合法選項評分。
-  \item \textbf{可擴展訓練：}以數百萬個決策點訓練，整合 memory-mapped shard、GPU 特徵處理、bfloat16、EMA 與 Muon optimizer。
+\item \textbf{Kaggle 銀牌（237／6,807）：}以端到端決策代理人直接銜接官方 C++ 遊戲引擎，完成競賽部署。
+\item \textbf{準確率成果：}兩個牌組的 specialist 相對基準準確率增益達 \textbf{+20.5／+49.4 個百分點}；以 Transformer 編碼 46 個狀態 token，並為動態合法選項評分。
+\item \textbf{可擴展訓練：}以數百萬個決策點訓練，整合 memory-mapped shard、GPU 特徵處理、bfloat16、EMA 與 Muon optimizer。
 \end{itemize}
 
 \vspace{7pt}
@@ -110,21 +140,11 @@ PyTorch、Transformer、PPO、W\&B\par
 {\color{muted}動態幾何規劃與多波次策略｜Kaggle Orbit Wars 銅牌}\par
 \tech{Rust · Python · 啟發式搜尋 · 動態幾何規劃 · 貪婪最佳化}
 \begin{itemize}
-  \item \textbf{Kaggle 銅牌（452／4,729）：}設計自主策略代理人，在行星持續移動與敵方可能增援的環境中規劃攻防。
-  \item \textbf{未來狀態規劃：}預測軌道位置並求解 ETA 攔截；以抵達時的守軍、敵方增援風險與行星產能評估攻擊價值。
-  \item \textbf{即時決策與部署：}以 ROI 導向的貪婪法選擇多波次行動、保留前線防禦；採 Rust 擴充正式推論。
+\item \textbf{Kaggle 銅牌（452／4,729）：}設計自主策略代理人，在行星持續移動與敵方可能增援的環境中規劃攻防。
+\item \textbf{未來狀態規劃：}預測軌道位置並求解 ETA 攔截；以抵達時的守軍、敵方增援風險與行星產能評估攻擊價值。
+\item \textbf{即時決策與部署：}以 ROI 導向的貪婪法選擇多波次行動、保留前線防禦；採 Rust 擴充正式推論。
 \end{itemize}
-
-\vspace{8pt}
-\cvsection{研究成果}{RESEARCH}
-{\color{navy}\fontsize{9.8}{13}\selectfont\bfseries
-EF1-Constrained Nash Social Welfare with Identical Additive Valuations: Complexity, Guarantees, and Experiments\par}
-\vspace{4pt}
-\textbf{第一作者}\enspace\textcolor{muted}{｜2026｜預印本；已投稿 TAAI 2026，審查中}\par
-\vspace{3pt}
-探討不可分割物品分配中的 EF1 公平性與 Nash 社會福利；提出結合 PPO 與 EF1 動作遮罩的 PriorityNet，以逐步分配維持公平性。\par
-\vspace{3pt}
-\href{https://arxiv.org/abs/2609.03846}{\textbf{arXiv:2609.03846}}
 \end{minipage}
+
 
 \end{document}
