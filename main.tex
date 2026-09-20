@@ -12,10 +12,14 @@
 \usepackage{hyperref}
 \tcbuselibrary{skins}
 
-% Use fonts installed with this Windows environment.
-\setmainfont{Arial}
-\setCJKmainfont{Microsoft JhengHei}
-\setCJKmonofont{Microsoft JhengHei}
+% Fonts available in the local environment.
+\setmainfont[
+  Path={/home/charles/.local/share/fonts/}, Extension=.ttf,
+  UprightFont=ArialMdm, BoldFont=arialceb,
+  ItalicFont=ArialMdmItl, BoldItalicFont=ArialCEBoldItalic
+]{ArialMdm}
+\setCJKmainfont[BoldFont={Source Han Sans TC Bold}]{Source Han Sans TC}
+\setCJKmonofont{Source Han Sans TC}
 \definecolor{navy}{HTML}{183348}
 \definecolor{teal}{HTML}{167C80}
 \definecolor{ink}{HTML}{263642}
@@ -81,7 +85,7 @@
 
 \sideheading{競賽與檢定}
 \award{NCPC 2025}{決賽佳作}
-\award{TOPC 2025}{銀獎}
+\award{TOPC 2025}{銀獎(60/228)}
 \award{CPE 2025}{5 題｜76／2,515（前 3\%）}
 \award{TOEIC (多益) 815 藍色}{2026 年}
 
