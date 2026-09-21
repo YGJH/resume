@@ -1,0 +1,76 @@
+% !TEX program = xelatex
+\documentclass[11pt,a4paper]{article}
+\usepackage[top=16mm,bottom=15mm,left=19mm,right=19mm]{geometry}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{hyperref}
+
+\setmainfont[
+  Path={arial/}, Extension=.ttf,
+  UprightFont=ArialMdm, BoldFont=arialceb,
+  ItalicFont=ArialMdmItl, BoldItalicFont=ArialCEBoldItalic
+]{ArialMdm}
+\setCJKmainfont[
+  Path={10_SourceHanSansTC/OTF/TraditionalChinese/}, Extension=.otf,
+  BoldFont=SourceHanSansTC-Bold
+]{SourceHanSansTC-Regular}
+
+\definecolor{navy}{HTML}{183348}
+\definecolor{teal}{HTML}{167C80}
+\definecolor{ink}{HTML}{263642}
+\definecolor{muted}{HTML}{3F4F5B}
+\definecolor{rulecolor}{HTML}{CCDCE2}
+\hypersetup{colorlinks=true,urlcolor=teal,
+  pdftitle={自傳｜楊子賢},pdfauthor={楊子賢},pdfsubject={自傳}}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{2em}
+\linespread{1.06}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+
+\newcommand{\autosection}[2]{%
+  \vspace{11pt}%
+  {\color{navy}\fontsize{13}{16.5}\selectfont\bfseries #1\hfill
+  {\color{teal}\fontsize{7.6}{10}\selectfont #2}}\par
+  \vspace{3.5pt}{\color{rulecolor}\hrule height 0.7pt}\vspace{8pt}}
+
+\begin{document}
+\color{ink}
+\fontsize{11}{16.6}\selectfont
+
+%% ---------- 標題 ----------
+\begin{center}
+  {\color{navy}\fontsize{23}{28}\selectfont\bfseries 自\hspace{0.35em}傳}\par
+  \vspace{6pt}
+  {\color{muted}\fontsize{9.4}{12}\selectfont
+  楊子賢\;ZIH-SIAN YANG｜國立臺灣海洋大學 資訊工程學系｜\href{mailto:jihuty@gmail.com}{jihuty@gmail.com}}
+\end{center}
+\vspace{2pt}
+
+%% ---------- 求學經歷 ----------
+\autosection{求學經歷與學習歷程}{EDUCATION}
+
+我自高中起接觸 C++、Python 程式語言，投入演算法的學習；這段經歷肯定了我的學習成果，也讓我確定了未來的方向。進入大學後我持續參與程式競賽，取得 Kaggle Expert、NCPC 佳作、TOPC 銀獎、CPE 五題與 TOEIC 815 等成績。
+
+在專業課程上，我以演算法與系統兩條主線累積基礎。演算法方面修習\textbf{資料結構}（87／實習 99）、\textbf{演算法}（89）、\textbf{圖論演算法}（91）建立分析問題與證明的習慣；系統方面修習\textbf{作業系統}（86）、\textbf{計算機結構}（87）、\textbf{編譯器}（88）、\textbf{系統程式}（85）、\textbf{嵌入式系統設計}（94）與\textbf{微處理機概論}（91／實驗 97），理解程式在真實硬體上的行為。此外也透過\textbf{人工智慧}、\textbf{機器視覺理論與應用}（88）、\textbf{Python 程式語言}（91）、\textbf{JAVA 程式設計}（98）與\textbf{網頁程式設計}（94）補足實作能力。
+%% ---------- 專題研究 ----------
+\autosection{專題研究}{RESEARCH}
+
+我與教授共同進行的文獻探討，主題是不可分割物品的公平分配（Fair Division of Indivisible Goods）：當物品相對於總價值變得「微小」時，EF1（Envy-Free up to one item）分配所能保證的納什社會福利（Nash Social Welfare, NSW）能提升到什麼程度。
+
+在相同可加性估值（identical additive valuations）下，已知 EF1 分配的 NSW 至少是最佳解的 $e^{-1/e}\approx 0.692$ 倍。我們探討的定理在物品滿足 $\epsilon$-小物品條件時，給出更強的下界 $\max\{e^{-1/e},\,\rho_n(\epsilon)\}$。其中 $\rho_n(\epsilon)$ 刻劃了 EF1 與小物品限制下最不平均的價值分佈：有 $k$ 人拿到略低於平均的 $\left(1-\frac{k\epsilon}{n}\right)$ 份額，其餘 $n-k$ 人拿到略高於平均的 $\left(1+\frac{(n-k)\epsilon}{n}\right)$ 份額，由此推得保證值隨 $\epsilon$ 變小而趨近最佳分配。
+
+這份研究讓我學會如何閱讀論文、拆解證明結構，並將直覺轉化為可驗證的數學敘述，也讓我確認自己對理論與演算法設計的興趣。
+
+%% ---------- 個人特質與展望 ----------
+\autosection{個人特質與未來展望}{OUTLOOK}
+
+長期的競賽訓練養成我面對未知問題時的耐性：先界定問題、再尋找可行解、最後改進效率。我習慣把想法寫成程式驗證，也樂於與同學討論不同的解法。未來我希望在研究所深化機器學習與演算法的訓練，將理論分析與系統實作結合，成為能獨立思考並解決實際問題的研究者。
+
+\end{document}

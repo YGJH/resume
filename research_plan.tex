@@ -1,0 +1,90 @@
+% !TEX program = xelatex
+\documentclass[11pt,a4paper]{article}
+\usepackage[top=15mm,bottom=14mm,left=18mm,right=18mm]{geometry}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\tcbuselibrary{skins}
+
+\setmainfont[
+  Path={arial/}, Extension=.ttf,
+  UprightFont=ArialMdm, BoldFont=arialceb,
+  ItalicFont=ArialMdmItl, BoldItalicFont=ArialCEBoldItalic
+]{ArialMdm}
+\setCJKmainfont[
+  Path={10_SourceHanSansTC/OTF/TraditionalChinese/}, Extension=.otf,
+  BoldFont=SourceHanSansTC-Bold
+]{SourceHanSansTC-Regular}
+
+\definecolor{navy}{HTML}{183348}
+\definecolor{teal}{HTML}{167C80}
+\definecolor{ink}{HTML}{263642}
+\definecolor{muted}{HTML}{3F4F5B}
+\definecolor{pale}{HTML}{F0F5F7}
+\definecolor{rulecolor}{HTML}{CCDCE2}
+\hypersetup{colorlinks=true,urlcolor=teal,
+  pdftitle={研究計畫｜楊子賢},pdfauthor={楊子賢},
+  pdfsubject={序列決策問題：從演算法與系統的角度出發}}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{2em}
+\linespread{1.06}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
+
+\newcommand{\plansection}[2]{%
+  \vspace{11pt}%
+  {\color{navy}\fontsize{13}{16.5}\selectfont\bfseries #1\hfill
+  {\color{teal}\fontsize{7.6}{10}\selectfont #2}}\par
+  \vspace{3.5pt}{\color{rulecolor}\hrule height 0.7pt}\vspace{8pt}}
+\newcommand{\subhead}[1]{%
+  \vspace{9pt}{\color{teal}\fontsize{11.4}{15}\selectfont\bfseries #1}\par\vspace{3.5pt}}
+
+\begin{document}
+\color{ink}
+\fontsize{11}{16.6}\selectfont
+
+%% ---------- 標題 ----------
+\begin{center}
+  {\color{navy}\fontsize{23}{28}\selectfont\bfseries 研究計畫}\par
+  \vspace{5pt}
+  {\color{navy}\fontsize{12.5}{16}\selectfont\bfseries 序列決策問題：從演算法與系統的角度出發}\par
+  \vspace{5pt}
+  {\color{muted}\fontsize{9.4}{12}\selectfont
+  楊子賢\;ZIH-SIAN YANG｜國立臺灣海洋大學 資訊工程學系｜\href{mailto:jihuty@gmail.com}{jihuty@gmail.com}}
+\end{center}
+\vspace{6pt}
+{\color{teal}\hrule height 1.8pt}
+
+%% ---------- 一 ----------
+\plansection{一、背景與興趣}{BACKGROUND}
+
+大學階段我做過三個比較完整的專案：用 Transformer 學寶可夢卡牌對戰的出牌決策、用啟發式搜尋與軌道幾何預測寫 Orbit Wars 的策略程式，以及用 PPO 搭配 EF1 動作遮罩做不可分割物品的公平分配（第一作者，投稿 TAAI 2026 審查中）。\par
+\vspace{6pt}
+它們的共通點是動作序列很長，要讓模型自己學出最佳的策略或動作序列並不容易，所以三個專案最後都得盡量把人類的先驗知識放進去才訓練得起來：合法動作的枚舉、ETA 的解析計算、EF1 遮罩。研究所希望繼續往序列決策的方向走，也不排斥偏演算法或系統面的題目。
+
+%% ---------- 二 ----------
+\plansection{二、我習慣的切入方式}{APPROACH}
+
+我習慣先把前人的結果讀過一遍，整理現有研究已經處理了哪些部分、還缺哪一塊，再挑其中一個往下深耕。做 EF1 那篇時，我讀完公平分配的相關文獻後發現，多數結果談的是最終 allocation 的性質，對「每一步都要維持 EF1」的逐步分配著墨比較少，就往這個方向做：先證明了幾個性質（例如 identical valuations 下每次把新物品分給 utility 最低的人，就可以永遠維持 EF1），再寫 PPO 去補 greedy 做不好的部分。\par
+\vspace{6pt}
+中間試過的做法比留在論文裡的多很多，大部分都沒有用，但這個流程讓我清楚自己在解什麼問題。
+
+%% ---------- 三 ----------
+\plansection{三、想研究的題目}{TOPICS}
+
+\subhead{1. 模型推論的效能與最佳化}
+卡牌專案要把模型接上官方的 C++ 引擎、Orbit Wars 最後用 Rust 改寫推論，當時都是調到能跑就好，沒有真的去看瓶頸在哪。我想從 profiling 開始，了解量化、batching、運算子合併各自能省下多少，以及模型變小之後決策品質會掉多少。
+
+\subhead{2. 用 harness 讓推論的結果更好}
+這裡的 harness 指包在模型外面的那一層程式：合法動作怎麼列、狀態怎麼編碼、輸出之後要不要再搜尋或檢查一次。同一個模型換一種包法，結果可能差很多——卡牌專案是先列出合法選項再讓模型評分，Orbit Wars 則幾乎全靠啟發式搜尋。我想把這件事做得更有系統：在模型輸出後接 beam search 或淺層 rollout 再選一次、或用可驗證的規則刪掉明顯錯的候選，看各自能把準確率拉高多少、又要多付多少推論時間。
+
+\subhead{3. 搜尋要往前看幾步}
+推論時要做搜尋，就得有一個能往前推的模型，而推得越遠誤差累積越多，長度通常是調出來的超參數。我想知道的不是預測準不準，而是「推到第幾步，搜尋選出的動作才開始跟真實環境的最好動作不一樣」，以及這個步數在不同狀態下差多少。寫 Orbit Wars 時我有一點感覺：多數回合不用想太遠，但有幾個關鍵時間點必須算準。
+
+\end{document}

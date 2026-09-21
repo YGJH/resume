@@ -1,680 +1,222 @@
 <!DOCTYPE html>
-<html>
-<!-- 
-    References: 
-    https://codepen.io/knaman2609/pen/Zbyjvv
-    https://pixabay.com/illustrations/donald-trump-america-president-5103361/ 
--->
-
+<html lang="zh-Hant">
 <head>
-    <meta charset="utf-8">
-    <title>Resume</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            height: 100%;
-        }
-
-        /* 定義CSS變數以統一配色 */
-        :root {
-            --primary-color: #1abc9c;
-            --secondary-color: #16a085;
-            --accent-color: #2980b9;
-            --background-color: #34495e;
-            --text-color: #ecf0f1;
-        }
-
-        body {
-            min-height: 100%;
-            background: linear-gradient(-45deg, #34495e, #1abc9c, #2980b9, #16a085);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            font-family: 'Lato', sans-serif;
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 26px;
-            padding-bottom: 50px;
-        }
-
-        @keyframes gradientBG {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        .container {
-            border: #c0bebe solid 1px;
-            border-radius: 20px;
-            box-shadow: -5px -5px 10px rgb(0, 0, 0), 5px 5px 10px rgb(0, 0, 0);
-            max-width: 900px;
-            background: var(--background-color); /* 使用CSS變數 */
-            margin: 0px auto 0px;
-            /* box-shadow: 1px 1px 2px #DAD7D7; */
-            padding: 40px;
-            margin-top: 50px;
-        }
-
-        .header {
-            color: white;
-            margin-bottom: 30px;
-        }
-
-        .full-name {
-            color: white;
-            font-size: 40px;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-            font-family: 'Montserrat', sans-serif; /* 更換名字字體 */
-            animation: neonGlow 1.5s ease-in-out infinite alternate;
-        }
-
-        .first-name {
-            color: white;
-            font-weight: 700;
-        }
-
-        .last-name {
-            font-size: medium;
-            color: white;
-            font-weight: 300;
-        }
-
-        .contact-info {
-            margin-bottom: 20px;
-        }
-
-        .email,
-        .phone {
-            color: #ffffff;
-            font-weight: 300;
-        }
-
-        .separator {
-            height: 10px;
-            display: inline-block;
-            border-left: 2px solid #999;
-            margin: 0px 10px;
-        }
-
-        .position {
-            font-size: large;
-            font-weight: bold;
-            display: flex;
-            flex-wrap: wrap;
-            margin-right: 10px;
-            text-decoration: underline;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .position::after {
-            content: '';
-            position: absolute;
-            height: 100%;
-            width: 0;
-            left: 0;
-            top: 0;
-            border-right: 2px solid var(--accent-color);
-            animation: typing 4s steps(20, end) infinite, blink 0.75s step-end infinite;
-        }
-
-        .about {
-            margin-top: 20px;
-            margin-bottom: 60px;
-        }
-
-        .details {
-            margin-top: 80px;
-            line-height: 20px;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .delayed {
-            opacity: 0;
-            animation: fadeIn 1s ease-in-out 1s forwards;
-        }
-
-        .section {
-            margin-top: 20px;
-            color: rgb(223, 223, 223);
-        }
-
-        .section:last-of-type {
-            margin-bottom: 0px;
-        }
-
-        .section__title {
-            font-size: large;
-            letter-spacing: 2px;
-            color: var(--primary-color); /* 使用CSS變數 */
-            font-weight: bold;
-            text-transform: uppercase;
-            border-bottom: 2px solid var(--accent-color); /* 使用CSS變數 */
-            padding-bottom: 5px; /* 增加內邊距 */
-        }
-
-        .section__list-item:first-of-type {
-            margin-top: 20px;
-        }
-
-        .section__list-item:last-of-type {
-            margin-bottom: 40px;
-        }
-
-        .section__list-item {
-            margin-bottom: 20px; /* 增加項目間距 */
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideIn 0.5s forwards;
-        }
-
-        .section__list-item:nth-child(odd) {
-            animation-delay: 0.2s;
-        }
-
-        .section__list-item:nth-child(even) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes slideIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes neonGlow {
-            from {
-                text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
-            }
-
-            to {
-                text-shadow: 0 0 20px var(--accent-color), 0 0 30px var(--accent-color);
-            }
-        }
-
-        @keyframes typing {
-            from {
-                width: 0;
-            }
-
-            to {
-                width: 100%;
-            }
-        }
-
-        @keyframes blink {
-            50% {
-                border-color: transparent;
-            }
-        }
-
-        .right {
-            vertical-align: top;
-            display: inline-block;
-            text-align: right;
-            display: flex;
-            flex-wrap: wrap;
-            width: 35%;
-            /* margin-left: 30px; */
-        }
-
-        .left {
-            display: flex;
-            flex-wrap: wrap;
-            float: left;
-            width: 65%;
-        }
-
-
-        .name {
-            /* float: left; */
-            font-weight: bold;
-        }
-
-        a {
-            text-decoration: none;
-            color: var(--primary-color); /* 使用CSS變數 */
-            font-style: italic;
-            transition: color 0.3s ease; /* 添加過渡效果 */
-        }
-
-        a:hover {
-            text-decoration: underline;
-            color: var(--secondary-color); /* 使用CSS變數 */
-        }
-
-        .skills__item {
-            margin-bottom: 10px;
-        }
-
-        input {
-            display: none;
-        }
-
-        label {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background: #C3DEF3;
-            border-radius: 20px;
-            margin-right: 3px;
-        }
-
-        .desc {
-            float: left;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            font-size: medium;
-            color: #FFFFFF; /* 將描述文字顏色設為白色 */
-            background-color: transparent; /* 確保背景透明 */
-            clear: both; /* 清除浮動影響 */
-            margin-top: 10px; /* 增加邊距來防止遮蔽 */
-        }
-
-        .name {
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            font-size: large;
-            margin-bottom: 10px;
-            margin-top: 10px;
-        }
-
-        input:checked+label {
-            background: #79A9CE;
-        }
-
-        nav {
-            display: flex;
-            flex-direction: column;
-        }
-
-        li {
-            margin-left: 20px;
-            font-weight: normal;
-            font-size: 20px;
-            list-style: none; /* 移除列表樣式 */
-            position: relative;
-            padding-left: 20px;
-        }
-
-        li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: var(--accent-color); /* 使用CSS變數 */
-        }
-
-        .skills__item ul li::before {
-            color: var(--primary-color); /* 使用CSS變數 */
-        }
-
-        .headerPicture {
-            /* border: solid; */
-            /* border-width: 3px; */
-            /* border-color: white; */
-            border: #c0bebe solid 3px;
-            box-shadow: -5px -5px 10px rgb(0, 0, 0), 5px 5px 10px rgb(0, 0, 0);
-            border-radius: 10px; /* 圓角 */
-            transition: transform 0.3s ease; /* 添加過渡效果 */
-            /* margin-left: 20px; */
-        }
-
-        .headerPicture:hover {
-            transform: scale(1.05); /* 懸停放大 */
-        }
-
-        .ability-name {
-            text-align: left;
-            font-size: 20px;
-            width: 100px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            margin-top: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border-radius: 8px; /* 增加表格圓角 */
-            overflow: hidden; /* 防止圓角失效 */
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 添加陰影 */
-            background-color: var(--text-color); /* 使用CSS變數 */
-        }
-
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 12px; /* 增加內邊距 */
-            background-color: #ffffff; /* 將表格背景色設為白色 */
-            color: #000000; /* 將文字顏色設為黑色 */
-            font-family: 'Arial', sans-serif; /* 更改表格字體 */
-            transition: background-color 0.3s ease; /* 添加過渡效果 */
-        }
-
-        th {
-            background-color: var(--primary-color); /* 使用CSS變數 */
-            color: white; /* 標題文字顏色 */
-            font-weight: bold; /* 加粗 */
-        }
-
-        td {
-            text-align: center;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9; /* 偶數行背景色 */
-        }
-
-        tr:hover {
-            background-color: var(--secondary-color); /* 使用CSS變數 */
-        }
-
-        .desc {
-            margin-bottom: 10px;
-            margin-top: 4px;
-            font-size: 14px;
-            color: #FFFFFF; /* 將描述文字顏色設為白色 */
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px; /* 減少內邊距以適應較小的螢幕 */
-                margin-top: 20px;
-            }
-
-            .full-name {
-                font-size: 30px; /* 調整名字字體大小 */
-            }
-
-            .position {
-                font-size: medium;
-            }
-
-            .section__title {
-                font-size: medium;
-            }
-
-            .left,
-            .right {
-                width: 100%; /* 使左右區塊在小螢幕上垂直排列 */
-                float: none;
-            }
-
-            table {
-                font-size: 12px; /* 調整表格字體大小 */
-            }
-
-            .contact-info,
-            .about,
-            .skills,
-            .interests {
-                text-align: center; /* 置中對齊 */
-            }
-        }
-
-        @media (max-width: 480px) {
-            .full-name {
-                font-size: 24px;
-            }
-
-            .position {
-                font-size: small;
-            }
-
-            .section__title {
-                font-size: small;
-            }
-
-            table {
-                font-size: 10px;
-            }
-        }
-
-        /* 引入新的字體 */
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-    </style>
-    <!-- 引入 Font Awesome 圖標庫 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>楊子賢｜技術履歷</title>
+<meta name="description" content="楊子賢 ZIH-SIAN YANG — 國立臺灣海洋大學資工系。AI、機器學習與演算法。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#183348; --teal:#167C80; --ink:#263642; --muted:#3F4F5B;
+  --pale:#F0F5F7; --rule:#CCDCE2; --page:#EDF2F4; --card:#FFFFFF;
+  --shadow:0 1px 2px rgba(24,51,72,.06),0 12px 40px rgba(24,51,72,.08);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --navy:#DCE9EF; --teal:#4FC3C6; --ink:#D5DFE6; --muted:#9BAEBC;
+    --pale:#1B2A35; --rule:#2C3F4D; --page:#0D161D; --card:#131E27;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 40px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --navy:#DCE9EF; --teal:#4FC3C6; --ink:#D5DFE6; --muted:#9BAEBC;
+  --pale:#1B2A35; --rule:#2C3F4D; --page:#0D161D; --card:#131E27;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 40px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--page); color:var(--ink);
+  font-family:"Inter","Noto Sans TC",-apple-system,"Segoe UI",sans-serif;
+  font-size:15px; line-height:1.72; padding:32px 16px 56px;
+}
+.sheet{
+  max-width:1000px; margin:0 auto; background:var(--card);
+  border-radius:14px; box-shadow:var(--shadow); overflow:hidden;
+}
+.inner{padding:44px 44px 48px}
+
+/* ---------- header ---------- */
+header{display:flex; align-items:flex-end; gap:28px; flex-wrap:wrap}
+.name{flex:1 1 240px; min-width:0}
+.name h1{font-size:clamp(34px,6vw,46px); line-height:1.1; color:var(--navy); font-weight:700; letter-spacing:.02em}
+.name .en{color:var(--muted); font-size:13px; letter-spacing:.14em; margin-top:6px}
+.meta{flex:1 1 300px; text-align:right; font-size:13.5px; color:var(--muted); line-height:1.95}
+.meta a{color:var(--teal); text-decoration:none; border-bottom:1px solid transparent}
+.meta a:hover{border-bottom-color:var(--teal)}
+.meta .sep{opacity:.45}
+.portrait{width:94px; height:94px; border-radius:10px; object-fit:cover; border:1px solid var(--rule); flex:0 0 auto}
+.topline{height:2px; background:var(--teal); margin:20px 0 30px; border:0}
+
+/* ---------- layout ---------- */
+.cols{display:grid; grid-template-columns:270px 1fr; gap:34px; align-items:start}
+
+/* ---------- sidebar ---------- */
+aside{background:var(--pale); border-radius:10px; padding:22px 20px; font-size:13.5px}
+aside h2{color:var(--navy); font-size:16px; font-weight:700; margin-bottom:12px}
+aside h3{color:var(--navy); font-size:14px; font-weight:700; margin:20px 0 10px; padding-top:16px; border-top:1px solid var(--rule)}
+.award{margin-bottom:12px}
+.award b{color:var(--teal); font-weight:600; display:block}
+.award span{color:var(--muted); font-size:12.8px; display:block; line-height:1.6}
+.skill{margin-bottom:10px}
+.skill b{display:block; color:var(--navy); font-size:13px}
+.skill span{color:var(--muted); font-size:12.8px}
+.rank{color:var(--muted); font-size:12.5px}
+
+/* ---------- main ---------- */
+section{margin-bottom:34px}
+section:last-child{margin-bottom:0}
+.sec-head{display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+  border-bottom:1px solid var(--rule); padding-bottom:5px; margin-bottom:16px}
+.sec-head h2{color:var(--navy); font-size:19px; font-weight:700}
+.sec-head span{color:var(--teal); font-size:10.5px; letter-spacing:.16em; font-weight:600; white-space:nowrap}
+.paper-title{color:var(--navy); font-size:15.5px; font-weight:700; line-height:1.5}
+.byline{font-size:13px; color:var(--muted); margin:6px 0 10px}
+.byline b{color:var(--ink)}
+p.body{font-size:14px}
+ul{list-style:none; margin-top:12px}
+li{position:relative; padding-left:18px; margin-bottom:7px; font-size:14px}
+li::before{content:"\25AA"; position:absolute; left:0; top:-1px; color:var(--teal)}
+li b{color:var(--navy)}
+a.arxiv{display:inline-block; margin-top:12px; color:var(--teal); font-weight:600;
+  font-size:13.5px; text-decoration:none; border-bottom:1px solid var(--rule)}
+a.arxiv:hover{border-bottom-color:var(--teal)}
+.project{margin-bottom:26px}
+.project:last-child{margin-bottom:0}
+.project h3{color:var(--navy); font-size:16px; font-weight:700}
+.project .sub{color:var(--muted); font-size:13px; margin-top:2px}
+.tech{margin-top:6px; color:var(--teal); font-size:12.2px}
+
+footer{text-align:center; color:var(--muted); font-size:12px; margin-top:24px; opacity:.75}
+
+/* ---------- responsive ---------- */
+@media (max-width:820px){
+  body{padding:16px 12px 40px; font-size:14.5px}
+  .inner{padding:28px 22px 32px}
+  .cols{grid-template-columns:1fr; gap:26px}
+  header{gap:18px}
+  .meta{text-align:left; flex-basis:100%; order:3}
+  .portrait{width:76px; height:76px}
+}
+
+/* ---------- print ---------- */
+@media print{
+  :root{--page:#fff; --card:#fff}
+  body{padding:0; font-size:9.6pt; line-height:1.5; background:#fff}
+  .sheet{box-shadow:none; border-radius:0; max-width:none}
+  .inner{padding:0}
+  section{margin-bottom:16px}
+  .cols{grid-template-columns:240px 1fr; gap:20px}
+  footer{display:none}
+}
+</style>
 </head>
-
 <body>
-    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+<main class="sheet">
+<div class="inner">
 
-    <div class="container">
-        <div class="header">
-            <div class="full-name">
-                <span class="first-name">Yang</span>
-                <span class="last-name">Zig-Sian</span>
-            </div>
-            <div class="contact-info">
-                <span class="email" style="color: white"><i class="fas fa-envelope"></i> Email: </span>
-                <span class="email-val">yzihsian@gmail.com</span>
-                <span class="separator"></span>
-                <strong class="phone" style="color: rgb(255, 255, 255)"><i class="fas fa-phone"></i> Phone: </strong>
-                <span class="phone-val">0916439130</span>
-                <span class="separator"></span>
-                <!-- 新增社群媒體連結 -->
-                <a href="https://github.com/YGJH" target="_blank"><i class="fab fa-github"></i></a>
-                <!-- <a href="https://www.instagram.com/seaweed0123/" target="_blank"><i class="fab fa-instagram"></i></a> -->
-            </div>
-
-            <div>
-                <img src="123123.png" class="headerPicture" width="60%">
-            </div>
-
-            <div class="about">
-                <span class="position">University Student</span>
-                <span class="desc">
-                    I am a University second grade Student major in Computer Science. I have some experience in c/c++,
-                    python, and a little knowledge about cryptography.
-                </span>
-            </div>
-        </div>
-        <div class="details">
-            <div class="section delayed">
-                <div class="section__title">Experience</div>
-                <div class="section__list">
-                    <div class="section__list-item">
-                        <div class="left">
-                            <div class="name">Chairman of the Computer Research Club at Neili High School</div>
-                            <div class="addr">No. 120, Chengzhang 4th St., Zhongli Dist., Taoyuan City, Taiwan
-                                (R.O.C.)</div>
-                            <div class="duration">Set 2021 - Jun 2022</div>
-                        </div>
-                        <div class="right">
-                            <div class="name">Chairman</div>
-                            <div class="desc">Planing club course, Learning to lead an organization</div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="section delayed">
-                <div class="section__title">Education</div>
-                <div class="section__list">
-                    <div class="section__list-item">
-                        <div class="left">
-                            <div class="name">National Taiwan Ocean University</div>
-                            <div class="addr">No.2, Beining Rd., Zhongzheng Dist., Keelung City 202301, Taiwan (R.O.C.)
-                            </div>
-                            <div class="duration">Sep 2023 - Jun 2027</div>
-                        </div>
-                        <div class="right">
-                            <div class="name">Undergraduate Student</div>
-                            <div class="desc">Learning hardware describtion language and c/c++, python, Javascript, etc.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="section__list-item">
-                        <div class="left">
-                            <div class="name">Taoyuan Municipal Nei-Li Senior High School</div>
-                            <div class="addr">No. 120, Chengzhang 4th St., Zhongli Dist., Taoyuan City, Taiwan (R.O.C.)
-                            </div>
-                            <div class="duration">Sep 2020 - Jul 2023</div>
-                        </div>
-                        <div class="right">
-                            <div class="name">Graduate Student</div>
-                            <div class="desc">Some basis knowledge, like Physics, Math, English</div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="section delayed">
-                <div class="section__title">Certificate</div>
-                <div class="section__list">
-                    <div class="section__list-item">
-                        <div class="ability-name">IELTS</div>
-                        <!-- <img src="ielts.png" style="width: auto ; height: 240px;"> -->
-                         <table>
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Listening</th>
-                                    <th>Reading</th>
-                                    <th>Writing</th>
-                                    <th>Speaking</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>2024/8/3</td>
-                                    <td>5.5</td>
-                                    <td>5.5</td>
-                                    <td>6.0</td>
-                                    <td>5.5</td>
-                                </tr>
-                            </tbody>
-                         </table>
-                        <div class="desc">Though I am not so influence in English, but I consider it is sufficient to
-                            handle most daliy situation.</div>
-                    </div>
-                    <br\>
-                    <div class="section__list-item">
-                        <div class="ability-name">CPE</div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>date</th>
-                                    <th>score</th>
-                                    <th>rank ratio</th>
-                                    <th>rank</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>2024/10/15</td>
-                                    <td>4/7</td>
-                                    <td>2.3%</td>
-                                    <td>62 / 2729</td>
-                                </tr>
-                                <tr>
-                                    <td>2025/5/20</td>
-                                    <td>5/7</td>
-                                    <td>3%</td>
-                                    <td>76 / 2515</td>
-                                </tr>
-                                
-                            </tbody>
-                            
-                        </table>
-
-                        <div class="ability-name">Kaggle</div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>date</th>
-                                    <th>score</th>
-                                    <th>rank ratio</th>
-                                    <th>rank</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>2026/04/14</td>
-                                    <td>1750.9</td>
-                                    <td>0.8%</td>
-                                    <td>2 / 233</td>
-                                </tr>
-                                
-                            </tbody>
-                            
-                        </table>
-
-                        <!-- <img src="cpe.png" style="width: 800px; height: 100px;"> -->
-                        <div class="desc">just mean I have normal ability to programming</div>
-                    </div>
-                </div>
-                <br>
-
-            </div>
-            <div class="section delayed">
-                <div class="section__title">Skills</div>
-                <div class="skills">
-                    <div class="skills__item">
-                        <nav>
-                            <ul>
-                                <li>
-                                    c/c++
-                                </li>
-                                <li>
-                                    python
-                                </li>
-
-                            </ul>
-                        </nav>
-
-                    </div>
-                </div>
-            </div>
-            <div class="section delayed">
-                <div class="section__title">
-                    Interests
-                </div>
-                <div class="section__list">
-                    <div class="section__list-item">
-                        <nav>
-                            <ul>
-                                <li>
-                                    competitive programming.
-                                </li>
-                                <!-- <li>
-                                    Cryptography
-                                </li> -->
-                                <li>
-                                    Machine Learning
-                                </li>
-                            </ul>
-                        </nav>
-
-                    </div>
-                </div>
-            </div>
-        </div>
+  <header>
+    <div class="name">
+      <h1>楊子賢</h1>
+      <div class="en">ZIH-SIAN YANG</div>
     </div>
+    <div class="meta">
+      國立臺灣海洋大學｜資訊工程學系<br>
+      <a href="mailto:jihuty@gmail.com">jihuty@gmail.com</a><span class="sep">｜</span><a href="mailto:01257049@email.ntou.edu.tw">01257049@email.ntou.edu.tw</a><br>
+      <a href="https://github.com/YGJH">github.com/YGJH</a><span class="sep">｜</span><a href="https://www.kaggle.com/ygjh13">kaggle.com/ygjh13</a>
     </div>
+    <img class="portrait" src="123123.png" onerror="this.remove()">
+  </header>
+
+  <hr class="topline">
+
+  <div class="cols">
+
+    <aside>
+      <h2>重點</h2>
+      <div class="award">
+        <b>Kaggle Expert</b>
+        <span>PTCG AI Battle｜銀牌｜237／6,807<br>Orbit Wars｜銅牌｜452／4,729</span>
+      </div>
+      <div class="award">
+        <b>第一作者研究</b>
+        <span>EF1-Constrained Nash Social Welfare<br>預印本；TAAI 2026 審查中</span>
+      </div>
+
+      <h3>競賽與檢定</h3>
+      <div class="award"><b>NCPC 2025</b><span>決賽佳作</span></div>
+      <div class="award"><b>TOPC 2025</b><span>銀獎（60／228）</span></div>
+      <div class="award"><b>CPE 2025</b><span>5 題｜76／2,515（前 3%）</span></div>
+      <div class="award"><b>TOEIC 多益 815</b><span>藍色證書｜2026 年</span></div>
+
+      <h3>技能</h3>
+      <div class="skill">
+        <b>ML／研究</b>
+        <span>PyTorch、Transformer、PPO、W&amp;B</span>
+      </div>
+      <div class="skill">
+        <b>演算法／系統</b>
+        <span>啟發式搜索、模仿學習、Python、Rust、C/C++</span>
+      </div>
+
+      <h3>學歷</h3>
+      <div class="skill">
+        <b>國立臺灣海洋大學</b>
+        <span>資訊工程學系</span>
+      </div>
+      <div class="rank">歷年排名｜班排名 21／52｜系排名 45／114（39%）</div>
+    </aside>
+
+    <div>
+
+      <section>
+        <div class="sec-head"><h2>研究成果</h2><span>RESEARCH HIGHLIGHT</span></div>
+        <div class="paper-title">EF1-Constrained Nash Social Welfare with Identical Additive Valuations: Complexity, Guarantees, and Experiments</div>
+        <div class="byline"><b>第一作者</b>｜2026｜預印本；已投稿 TAAI 2026，審查中</div>
+        <p class="body">研究不可分割物品分配中，如何同時追求 <b>EF1（移除至多一件物品後無嫉妒）</b> 公平性與 <b>Nash Social Welfare（NSW）</b>。聚焦於所有 agent 具有相同加法估值的設定：先刻畫 EF1 對福利的理論代價與近似保證，再轉化為逐步分配時仍能保證公平、並由學習策略最佳化 welfare 的方法。</p>
+        <ul>
+          <li><b>最適解與 EF1 相容：</b>若只要求最終 allocation 滿足 EF1，並不會犧牲最優 NSW，因為 maximum-NSW allocation 本身即為 EF1；但求精確最優解在計算上仍具困難。</li>
+          <li><b>任意 EF1 allocation 的福利保證：</b>當所有 goods 價值相同時，任何 EF1 allocation 皆為 NSW optimal；在 ε-small-item condition 下，任何 EF1 allocation 均達 <b>1−O(ε²)</b> NSW approximation。</li>
+          <li><b>Sequential EF1 可行性：</b>一般加法估值下，每步皆維持 EF1 可能無解；對 identical valuations，證明每次將新 good 分給目前 utility 最低的 agent 即可永遠保持 EF1。</li>
+          <li><b>PriorityNet：</b>以 PPO 學習每步 allocation decision，並設計 prospective EF1 action mask 預先排除會破壞 EF1 的 actions；fairness 由 mask 保證，policy 僅在合法 actions 中提升 welfare。</li>
+          <li><b>實驗結果：</b>offline／online mean normalized NSW 分別為 <b>0.9911／0.9701</b>，皆接近 LPT greedy baseline；PriorityNet 在 individual instances 上具有較高 win rate。</li>
+        </ul>
+        <a class="arxiv" href="https://arxiv.org/abs/2609.03846">arXiv:2609.03846 &rarr;</a>
+      </section>
+
+      <section>
+        <div class="sec-head"><h2>專案</h2><span>SELECTED PROJECTS</span></div>
+
+        <div class="project">
+          <h3>Pokémon TCG 決策代理人</h3>
+          <div class="sub">Transformer 模仿學習系統｜Kaggle PTCG AI Battle 銀牌</div>
+          <div class="tech">PyTorch · Transformer · Pointer Network · Behavior Cloning · W&amp;B</div>
+          <ul>
+            <li><b>Kaggle 銀牌（237／6,807）：</b>以端到端決策代理人直接銜接官方 C++ 遊戲引擎，完成競賽部署。</li>
+            <li><b>準確率成果：</b>兩個牌組的 specialist 相對基準準確率增益達 <b>+20.5／+49.4 個百分點</b>；以 Transformer 編碼 46 個狀態 token，並為動態合法選項評分。</li>
+            <li><b>可擴展訓練：</b>以數百萬個決策點訓練，整合 memory-mapped shard、GPU 特徵處理、bfloat16、EMA 與 Muon optimizer。</li>
+          </ul>
+        </div>
+
+        <div class="project">
+          <h3>Orbit Wars 策略代理人</h3>
+          <div class="sub">動態幾何規劃與多波次策略｜Kaggle Orbit Wars 銅牌</div>
+          <div class="tech">Rust · Python · 啟發式搜尋 · 動態幾何規劃 · 貪婪最佳化</div>
+          <ul>
+            <li><b>Kaggle 銅牌（452／4,729）：</b>設計自主策略代理人，在行星持續移動與敵方可能增援的環境中規劃攻防。</li>
+            <li><b>未來狀態規劃：</b>預測軌道位置並求解 ETA 攔截；以抵達時的守軍、敵方增援風險與行星產能評估攻擊價值。</li>
+            <li><b>即時決策與部署：</b>以 ROI 導向的貪婪法選擇多波次行動、保留前線防禦；採 Rust 擴充正式推論。</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+</main>
+<footer>楊子賢 ZIH-SIAN YANG · 2026</footer>
 </body>
-
 </html>
