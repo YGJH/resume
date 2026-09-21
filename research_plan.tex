@@ -1,6 +1,6 @@
 % !TEX program = xelatex
 \documentclass[11pt,a4paper]{article}
-\usepackage[top=15mm,bottom=14mm,left=18mm,right=18mm]{geometry}
+\usepackage[top=14mm,bottom=12mm,left=18mm,right=18mm]{geometry}
 \usepackage{fontspec}
 \usepackage{xeCJK}
 \usepackage{xcolor}
@@ -34,20 +34,22 @@
 \setlength{\parskip}{0pt}
 \setlength{\emergencystretch}{2em}
 \linespread{1.06}
+\setlist[itemize]{leftmargin=1.35em,label=\textcolor{teal}{\textbullet},%
+  itemsep=3.5pt,topsep=5pt,parsep=0pt,partopsep=0pt}
 \XeTeXlinebreaklocale "zh"
 \XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
 
 \newcommand{\plansection}[2]{%
-  \vspace{11pt}%
+  \vspace{9pt}%
   {\color{navy}\fontsize{13}{16.5}\selectfont\bfseries #1\hfill
   {\color{teal}\fontsize{7.6}{10}\selectfont #2}}\par
   \vspace{3.5pt}{\color{rulecolor}\hrule height 0.7pt}\vspace{8pt}}
 \newcommand{\subhead}[1]{%
-  \vspace{9pt}{\color{teal}\fontsize{11.4}{15}\selectfont\bfseries #1}\par\vspace{3.5pt}}
+  \vspace{7.5pt}{\color{teal}\fontsize{11.4}{15}\selectfont\bfseries #1}\par\vspace{3.5pt}}
 
 \begin{document}
 \color{ink}
-\fontsize{11}{16.6}\selectfont
+\fontsize{11}{15.8}\selectfont
 
 %% ---------- 標題 ----------
 \begin{center}
@@ -62,29 +64,41 @@
 {\color{teal}\hrule height 1.8pt}
 
 %% ---------- 一 ----------
-\plansection{一、背景與興趣}{BACKGROUND}
 
-大學階段我做過三個比較完整的專案：用 Transformer 學寶可夢卡牌對戰的出牌決策、用啟發式搜尋與軌道幾何預測寫 Orbit Wars 的策略程式，以及用 PPO 搭配 EF1 動作遮罩做不可分割物品的公平分配（第一作者，投稿 TAAI 2026 審查中）。\par
+\plansection{一、我習慣的切入方式}{APPROACH}
+
+我習慣先把前人的結果讀過一遍，整理現有研究處理了哪些部分、還缺哪一塊，再挑一個往下深耕。做 EF1 那篇時，我讀完公平分配的文獻後發現多數結果談的是\textbf{最終} allocation 的性質，對「每一步都要維持 EF1」的逐步分配著墨較少，並且有一些明顯可以往下推的結論，前人沒有提到，就往這裡做：先證明幾個性質（例如 identical valuations 下每次把新物品分給 utility 最低的人即可永遠維持 EF1），把它當成有理論保證的 greedy baseline，再用 PPO 去補 greedy 做不好的部分。\par
+
+但不得不說，近年的 AI research 真的太多，許多事情是我有興趣但還未看完的研究內容，而且很多研究是前後依賴的，所以對於一些機器學習的內容，還是要先理解才能構築之後的研究題目。
 \vspace{6pt}
-它們的共通點是動作序列很長，要讓模型自己學出最佳的策略或動作序列並不容易，所以三個專案最後都得盡量把人類的先驗知識放進去才訓練得起來：合法動作的枚舉、ETA 的解析計算、EF1 遮罩。研究所希望繼續往序列決策的方向走，也不排斥偏演算法或系統面的題目。
+
 
 %% ---------- 二 ----------
-\plansection{二、我習慣的切入方式}{APPROACH}
+\plansection{二、想研究的題目}{RESEARCH TOPICS}
 
-我習慣先把前人的結果讀過一遍，整理現有研究已經處理了哪些部分、還缺哪一塊，再挑其中一個往下深耕。做 EF1 那篇時，我讀完公平分配的相關文獻後發現，多數結果談的是最終 allocation 的性質，對「每一步都要維持 EF1」的逐步分配著墨比較少，就往這個方向做：先證明了幾個性質（例如 identical valuations 下每次把新物品分給 utility 最低的人，就可以永遠維持 EF1），再寫 PPO 去補 greedy 做不好的部分。\par
-\vspace{6pt}
-中間試過的做法比留在論文裡的多很多，大部分都沒有用，但這個流程讓我清楚自己在解什麼問題。
+\subhead{1. 優化器的計算與記憶體，以及用 optimizer 幫助推論}
+卡牌專案訓練時用的是 Muon，當時只知道它比 Adam 省記憶體、收斂也不差，但它每一步都要對 momentum 矩陣做 Newton--Schulz 近似正交化，我認為或許有更有效率的方案。另一方面，這個模型推論時外面還包了一層搜尋；有些人認為 optimizer 內部其實儲存了許多關於模型與資料的知識，那是否能反過來利用這些資訊，幫助模型在推論時輸出更好的答案——這是我最想做的方向。
+\begin{itemize}
 
-%% ---------- 三 ----------
-\plansection{三、想研究的題目}{TOPICS}
+\item \textbf{優化器狀態的記憶體：}Adam 存一階與二階兩份狀態，Muon 只要一份 momentum，EMA 又額外佔一份。既有做法有 Adafactor 的因子化二階動量、8-bit optimizer state 與 GaLore 的低秩梯度投影；Muon 的差別在於多了正交化這一步，對數值精度可能更敏感，momentum 壓到 8-bit 是否仍然穩定，是可以直接驗的問題。「哪些參數走 Muon、哪些留給 Adam」目前也還是經驗規則。
+\item \textbf{用 optimizer 裡的資訊幫助推論：}optimizer 狀態不只是訓練用的暫存——Adam 的二階動量是 Fisher 資訊的粗略估計，訓練軌跡的變異也帶著「模型對哪些輸入沒把握」的訊息。SWA／SWAG 用 SGD 軌跡的平均與共變異建出後驗、K-FAC Laplace 用曲率做不確定度估計，都是這個想法的既有版本；近年 test-time training 與 Titans 這類工作，更直接把梯度更新本身變成推論的一部分。我想把它接到搜尋上：用 optimizer 留下的曲率與不確定度判斷「模型此刻的分數可不可信」，再動態決定要保留幾個候選、要往前搜多深——沒把握時多看幾個候選、多想幾步，有把握時直接出手。
 
-\subhead{1. 模型推論的效能與最佳化}
-卡牌專案要把模型接上官方的 C++ 引擎、Orbit Wars 最後用 Rust 改寫推論，當時都是調到能跑就好，沒有真的去看瓶頸在哪。我想從 profiling 開始，了解量化、batching、運算子合併各自能省下多少，以及模型變小之後決策品質會掉多少。
+\end{itemize}
 
-\subhead{2. 用 harness 讓推論的結果更好}
-這裡的 harness 指包在模型外面的那一層程式：合法動作怎麼列、狀態怎麼編碼、輸出之後要不要再搜尋或檢查一次。同一個模型換一種包法，結果可能差很多——卡牌專案是先列出合法選項再讓模型評分，Orbit Wars 則幾乎全靠啟發式搜尋。我想把這件事做得更有系統：在模型輸出後接 beam search 或淺層 rollout 再選一次、或用可驗證的規則刪掉明顯錯的候選，看各自能把準確率拉高多少、又要多付多少推論時間。
+\subhead{2. Harness 設計：把先驗放在模型外面能拿回多少品質}
+這裡的 harness 指包在模型外面那一層：合法動作怎麼列、狀態怎麼編碼、輸出後要不要再搜尋或驗證一次。同一個 checkpoint 換一種包法差很多——卡牌是先列合法選項再讓模型評分，Orbit Wars 幾乎全靠啟發式搜尋，EF1 的 action mask 則是同一件事的極端案例。
+\begin{itemize}
+\item \textbf{作法：}固定同一個 checkpoint，只改外層並逐一對照：(a) 直接取 argmax；(b) 對 policy 的 top-$k$ 候選做 beam search 或淺層 rollout 再選一次；(c) 用可驗證的規則剪掉明顯錯誤的候選（如 EF1 遮罩那種硬約束）；(d) 另訓一個 value head 對候選重新排序。
+\item \textbf{評估：}量各種 harness 的品質增益 vs.\ 每步額外計算量（等效 FLOPs 與 wall-clock），並與「把模型放大或多訓練」的增益做\textbf{等成本比較}，也就是 test-time compute 與 train-time compute 的兌換率——在什麼預算下，多想一步比換更大的模型划算。
+\item \textbf{想回答的問題：}先驗放進訓練與放進外層各自的效益邊界；硬約束式的遮罩除了保證可行性，是否也降低了 policy 的學習難度。
+\end{itemize}
 
-\subhead{3. 搜尋要往前看幾步}
-推論時要做搜尋，就得有一個能往前推的模型，而推得越遠誤差累積越多，長度通常是調出來的超參數。我想知道的不是預測準不準，而是「推到第幾步，搜尋選出的動作才開始跟真實環境的最好動作不一樣」，以及這個步數在不同狀態下差多少。寫 Orbit Wars 時我有一點感覺：多數回合不用想太遠，但有幾個關鍵時間點必須算準。
+\subhead{3. 搜尋要往前看幾步：有效規劃視界}
+搜尋要往前推，就得有一個能推的模型；推得越遠誤差累積越多，該推幾步多半是試出來的超參數。我想量的不是模型預測準不準，而是\textbf{誤差什麼時候才真的害你選錯動作}。
+\begin{itemize}
+\item \textbf{定義：}對每個局面 $s$，把「用模型往前推 $h$ 步去搜尋」和「用真實環境往前推 $h$ 步去搜尋」\textbf{開始選出不同動作}的最小 $h$ 記為 $H^{*}(s)$，也就是\textbf{這個模型在這個局面可以被信任幾步}。
+\item \textbf{作法：}卡牌引擎和 Orbit Wars 都有完整規則，可以拿真實環境搜尋出的動作當答案，直接把每個局面的 $H^{*}$ 量出來，再看它跟三件事的關係：這一步有幾個合法動作（選項越多誤差擴散越快）、最好與次好的動作差多少（兩者接近時一點誤差就會選錯）、以及距離結束還剩幾回合。接著比較兩種往前推的模型：一種訓練它把下一個狀態還原得準，一種不管狀態長什麼樣、只要求推出來的價值判斷跟真實環境一致（MuZero 的作法），看哪一種撐得比較深。
+\item \textbf{應用：}如果 $H^{*}$ 能事先用一個很輕的模型估出來，搜尋深度就可以隨局面調整：簡單的回合少想幾步，關鍵回合多花算力，總預算不變。寫 Orbit Wars 時我有這個感覺——多數回合不用想太遠，但幾個關鍵時間點必須算準；我想把這個直覺變成可量測、可調度的量。
+\end{itemize}
 
 \end{document}

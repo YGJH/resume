@@ -1,6 +1,6 @@
 % !TEX program = xelatex
 \documentclass[11pt,a4paper]{article}
-\usepackage[top=16mm,bottom=15mm,left=19mm,right=19mm]{geometry}
+\usepackage[top=15mm,bottom=13mm,left=19mm,right=19mm]{geometry}
 \usepackage{fontspec}
 \usepackage{xeCJK}
 \usepackage{xcolor}
@@ -30,6 +30,8 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0pt}
 \setlength{\emergencystretch}{2em}
+\setlist[itemize]{leftmargin=1.35em,label=\textcolor{teal}{\textbullet},%
+  itemsep=3.5pt,topsep=5pt,parsep=0pt,partopsep=0pt}
 \linespread{1.06}
 \XeTeXlinebreaklocale "zh"
 \XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
@@ -40,9 +42,17 @@
   {\color{teal}\fontsize{7.6}{10}\selectfont #2}}\par
   \vspace{3.5pt}{\color{rulecolor}\hrule height 0.7pt}\vspace{8pt}}
 
+\usepackage{array}
+\usepackage{colortbl}
+
+\newcommand{\stage}[1]{%
+  \vspace{6pt}{\color{teal}\fontsize{11}{14}\selectfont\bfseries #1}\par\vspace{2.5pt}}
+\newcommand{\gbar}{\cellcolor{teal!78}}
+\newcommand{\ghead}[1]{{\color{navy}\fontsize{9}{11}\selectfont\bfseries #1}}
+
 \begin{document}
 \color{ink}
-\fontsize{11}{16.6}\selectfont
+\fontsize{11}{15.9}\selectfont
 
 %% ---------- 標題 ----------
 \begin{center}
@@ -58,7 +68,6 @@
 
 我自高中起接觸 C++、Python 程式語言，投入演算法的學習；這段經歷肯定了我的學習成果，也讓我確定了未來的方向。進入大學後我持續參與程式競賽，取得 Kaggle Expert、NCPC 佳作、TOPC 銀獎、CPE 五題與 TOEIC 815 等成績。
 
-在專業課程上，我以演算法與系統兩條主線累積基礎。演算法方面修習\textbf{資料結構}（87／實習 99）、\textbf{演算法}（89）、\textbf{圖論演算法}（91）建立分析問題與證明的習慣；系統方面修習\textbf{作業系統}（86）、\textbf{計算機結構}（87）、\textbf{編譯器}（88）、\textbf{系統程式}（85）、\textbf{嵌入式系統設計}（94）與\textbf{微處理機概論}（91／實驗 97），理解程式在真實硬體上的行為。此外也透過\textbf{人工智慧}、\textbf{機器視覺理論與應用}（88）、\textbf{Python 程式語言}（91）、\textbf{JAVA 程式設計}（98）與\textbf{網頁程式設計}（94）補足實作能力。
 %% ---------- 專題研究 ----------
 \autosection{專題研究}{RESEARCH}
 
@@ -69,8 +78,59 @@
 這份研究讓我學會如何閱讀論文、拆解證明結構，並將直覺轉化為可驗證的數學敘述，也讓我確認自己對理論與演算法設計的興趣。
 
 %% ---------- 個人特質與展望 ----------
-\autosection{個人特質與未來展望}{OUTLOOK}
 
-長期的競賽訓練養成我面對未知問題時的耐性：先界定問題、再尋找可行解、最後改進效率。我習慣把想法寫成程式驗證，也樂於與同學討論不同的解法。未來我希望在研究所深化機器學習與演算法的訓練，將理論分析與系統實作結合，成為能獨立思考並解決實際問題的研究者。
+
+\autosection{背景與興趣}{BACKGROUND}
+
+大學階段我完成三個較完整的專案，它們的共同結構是\textbf{長序列決策，且合法動作集合隨狀態改變}：
+
+\begin{itemize}
+	\item \textbf{Pokémon TCG 決策代理人（模仿學習）：}把一局對戰視為 behavior cloning 問題。以 Transformer 編碼 46 個狀態 token（手牌、場上寶可夢、能量、棄牌堆等），輸出端不是固定維度的 softmax，而是 pointer-style 的 scoring head——對\textbf{當下動態枚舉出的合法動作}逐一打分，因此動作空間大小每步都不同。以數百萬個決策點訓練，資料層用 memory-mapped shard 搭配 GPU 端特徵組裝維持 data loader 吞吐，訓練採 bfloat16、EMA 與 Muon optimizer。兩個牌組的 specialist 相對基準的動作準確率提升 \textbf{+20.5\% acc}，並實際接上官方 C++ 引擎完成競賽部署。
+	\item \textbf{Orbit Wars 策略代理人（搜尋與規劃）：}環境是持續移動的軌道幾何。我把「攻擊哪顆行星」化為解 ETA 攔截、再以抵達時守軍、敵方增援風險與產能估計 ROI 的多波次貪婪規劃，正式推論以 Rust 重寫以換取每回合更多的搜尋量。
+\end{itemize}
+
+\vspace{6pt}
+兩個專案讓我反覆撞到同一件事：當序列很長、動作空間又有結構時，純 end-to-end 很難只靠 reward 或 label 學起來，最後都得把先驗以\textbf{結構}的形式放進模型外圍——合法動作枚舉、ETA 的解析解、EF1 遮罩。我想研究的正是這條界線：\textbf{哪些該讓模型學、哪些該由外層的 harness 或搜尋保證}，以及這個切分如何同時影響決策品質與推論成本。
+
+
+%% ---------- 讀書計畫 ----------
+\autosection{讀書計畫}{STUDY PLAN}
+
+我的研究興趣集中在\textbf{序列決策}：如何讓模型在動作很多、又必須一步步決定的問題上做得更好。大學期間的三個專案已經讓我摸到這條線的兩端——訓練端與推論端，我想在碩士階段把它們接起來：\textbf{訓練時的 optimizer 不只決定模型收斂到哪裡，也可能決定這個模型適不適合在推論時被搜尋利用}。以下是我為此規劃的進度。
+
+
+
+\stage{入學前}
+\begin{itemize}
+\item 補強數值線性代數（矩陣分解、矩陣函數的迭代近似）與最佳化理論——這是理解 Muon 的 Newton--Schulz 正交化與各類 preconditioner 的前提。
+\item 依兩條主線讀文獻：優化器的計算與記憶體（Shampoo／SOAP、Adafactor、8-bit optimizer state、GaLore），以及推論期的額外計算（SWA／SWAG、Laplace 近似、test-time training）。
+\item 完成 EF1 論文投稿 TAAI 2026 後的修訂，並把 PriorityNet 的程式整理成可重現的公開版本。
+\item 把卡牌專案的訓練與推論路徑補上量測（顯存峰值、每秒決策點、每步決策延遲），作為入學後實驗的共用平台。
+
+\end{itemize}
+
+\stage{碩一上}
+\begin{itemize}
+\item 修習機器學習、最佳化方法、平行計算與 GPU 程式設計等核心課程。
+\item 執行第一個可驗證的小實驗：把 Muon 固定次數的 Newton--Schulz 迭代改成由殘差決定的自適應版本。
+\item 固定參加論文研討，每兩週與指導教授討論一次，逐步收斂研究題目。
+\end{itemize}
+
+\stage{碩一下}
+\begin{itemize}
+\item 確定論文主題，預期落在\textbf{優化器與推論期搜尋的結合}；完成相關文獻的系統性整理。
+\item 完成優化器狀態壓縮的實驗：Muon 的 momentum 能否壓到 8-bit，並與已成熟的 8-bit Adam 對照。
+\item 參與實驗室計畫累積實作經驗，並修畢畢業學分。
+
+\end{itemize}
+
+\stage{碩二上}
+\begin{itemize}
+\item 專注核心題目：以 optimizer 留下的曲率與不確定度資訊判斷模型當下的輸出可不可信，據此動態決定推論時保留幾個候選、往前搜多深。
+\item 完成主要實驗與消融，指標除了準確率，還包含 top-$k$ recall、校準誤差與接上搜尋後的實際表現。
+\item 完成碩士論文初稿，並投稿國際會議。
+\end{itemize}
+
+
 
 \end{document}
