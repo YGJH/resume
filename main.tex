@@ -9,6 +9,7 @@
 \usepackage{tabularx}
 \usepackage{tcolorbox}
 \usepackage{graphicx}
+\usepackage{amsmath}
 \usepackage{hyperref}
 \tcbuselibrary{skins}
 
@@ -120,8 +121,8 @@ EF1-Constrained Nash Social Welfare with Identical Additive Valuations: Complexi
 \vspace{3pt}
 研究不可分割物品分配中，如何同時追求 \textbf{EF1（移除至多一件物品後無嫉妒）}公平性與 \textbf{Nash Social Welfare（NSW）}。聚焦於所有 agent 具有相同加法估值的設定：先刻畫 EF1 對福利的理論代價與近似保證，再將結果轉化為一個逐步分配時仍能保證公平、並由學習策略最佳化 welfare 的方法。\par
 \begin{itemize}
-\item \textbf{最適解與 EF1 相容：}證明若只要求最終 allocation 滿足 EF1，並不會犧牲最優 NSW，因為 maximum-NSW allocation 本身即為 EF1；但求精確最優解在計算上仍具困難。
-\item \textbf{任意 EF1 allocation 的福利保證：}當所有 goods 價值相同時，任何 EF1 allocation 皆為 NSW optimal；在 $\epsilon$-small-item condition 下，任何 EF1 allocation 均達 \textbf{$1-O(\epsilon^2)$} NSW approximation。
+\item \textbf{Small-item 下限保證（核心結果）：}baseline 為任何 EF1 allocation 至少達最優 NSW 的 $e^{-1/e}\approx0.692$ 倍；證明在 $\epsilon$-small-item condition（任一 good 價值 $\le\epsilon\mu$，$\mu$ 為平均份額）下可提升至 $\max\{e^{-1/e},\rho_n(\epsilon)\}$，其中 $\rho_n(\epsilon)=\min_{1\le k\le n-1}\big[(1-\tfrac{k\epsilon}{n})^{n-k}(1+\tfrac{(n-k)\epsilon}{n})^{k}\big]^{1/n}$，取自 EF1 所允許最不平均的 bundle 價值分佈。
+\item \textbf{福利損失是 $\epsilon$ 的二次項：}$\rho_n(\epsilon)=1-\tfrac{1}{8}\epsilon^{2}+O(\epsilon^{3})=1-O(\epsilon^{2})$，$\epsilon\to0$ 時收斂至 1；最大物品佔比減半，福利損失只剩四分之一——物品夠小時 EF1 幾乎不犧牲 NSW。
 \item \textbf{Sequential EF1 可行性：}一般加法估值下，每一步皆維持 EF1 甚至可能無解；對 identical valuations，證明每次將新 good 分給目前 utility 最低的 agent，即可永遠保持 EF1。
 \item \textbf{PriorityNet：}以 PPO 學習每一步 allocation decision，並設計 prospective EF1 action mask，預先排除會破壞 EF1 的 actions；因此 fairness 由 mask 保證，policy 僅在合法 actions 中提升 welfare。
 \item \textbf{實驗結果：}offline／online mean normalized NSW 分別為 \textbf{0.9911／0.9701}，皆接近 LPT greedy baseline；PriorityNet 在 individual instances 上具有較高 win rate。
