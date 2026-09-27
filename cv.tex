@@ -34,9 +34,8 @@
 \setlength{\emergencystretch}{2em}
 \setlist[itemize]{leftmargin=1.15em,label=\textcolor{teal}{\textbullet},itemsep=2pt,topsep=3pt,parsep=0pt,partopsep=0pt}
 
-\newcommand{\cvsection}[2]{%
-  {\color{navy}\fontsize{12}{16}\selectfont\bfseries #1\hfill
-  {\color{teal}\fontsize{7.2}{9}\selectfont #2}}\par
+\newcommand{\cvsection}[1]{%
+  {\color{navy}\fontsize{12}{16}\selectfont\bfseries #1}\par
   \vspace{2pt}{\color{rulecolor}\hrule height 0.6pt}\vspace{5pt}}
 \newcommand{\sideheading}[1]{\vspace{10pt}{\color{navy}\fontsize{10.5}{14}\selectfont\bfseries #1}\par\vspace{5pt}}
 \newcommand{\award}[2]{\textbf{#1}\par{\color{muted}#2}\par\vspace{5pt}}
@@ -52,7 +51,7 @@
 \begin{document}
 \color{ink}
 
-{\color{navy}\fontsize{31}{38}\selectfont\bfseries 楊子賢}\par
+{\color{navy}\fontsize{24}{30}\selectfont\bfseries 楊子賢}\par
 \vspace{3pt}
 {\color{muted}\fontsize{10}{13}\selectfont ZIH-SIAN YANG}\par
 \vspace{6pt}
@@ -61,6 +60,9 @@
 \href{mailto:jihuty@gmail.com}{jihuty@gmail.com}｜\href{mailto:01257049@email.ntou.edu.tw}{01257049@email.ntou.edu.tw}\par
 \href{https://github.com/YGJH}{github.com/YGJH}｜\href{https://www.kaggle.com/ygjh13}{kaggle.com/ygjh13}}
 
+\vspace{6pt}
+{\color{navy}\fontsize{9.2}{12.3}\selectfont\bfseries 研究興趣}\enspace
+{\color{muted}\fontsize{9.2}{12.3}\selectfont 演算法博弈論、公平分配、機器學習與強化學習}\par
 \vspace{6pt}
 {\color{teal}\hrule height 2pt}
 \vspace{8pt}
@@ -79,7 +81,21 @@
 % \end{tcolorbox}
 \vspace{5pt}
 
-\cvsection{競賽與檢定}{COMPETITIONS \& CERTIFICATIONS}
+\cvsection{研究成果}
+{\color{navy}\fontsize{9.8}{13}\selectfont\bfseries
+EF1-Constrained Nash Social Welfare with Identical Additive Valuations: Complexity, Guarantees, and Experiments\par}
+\vspace{4pt}
+\textbf{第一作者}\enspace\textcolor{muted}{｜2026｜預印本；已投稿 TAAI 2026，審查中}\par
+\vspace{3pt}
+\textbf{主題：}本研究以不可分割物品分配為場景，同時追求 EF1 公平與 Nash Social Welfare（NSW），從理論界線一路做到可執行的學習式分配方法。\par
+\begin{itemize}
+\item \textbf{理論結果：}證明問題為 strongly NP-complete；要求 EF1 時仍保證至少保留最優 NSW 的 \textbf{69.2\%}，且在 identical valuations 下，將新物品分給目前效用最低者可持續維持 EF1。
+\item \textbf{方法與實驗：}提出 PriorityNet，以 PPO 與 action mask 保證公平；在 3,000 筆實例中，offline／online mean normalized NSW 達 \textbf{0.9911／0.9701}。
+\end{itemize}
+\href{https://arxiv.org/abs/2609.03846}{\textbf{arXiv:2609.03846}}
+
+\vspace{5pt}
+\cvsection{競賽}
 \textbf{\href{https://www.kaggle.com/ygjh13}{Kaggle Expert}}\par
 \vspace{3pt}
 \textbf{\href{https://www.kaggle.com/competitions/pokemon-tcg-ai-battle}{Kaggle PTCG AI Battle Challenge Simulation}}\enspace 237 / 6807 (3\%) \par
@@ -91,35 +107,20 @@
 \textbf{TOPC 2025}\enspace （60／228）\par
 \vspace{3pt}
 \textbf{CPE 2025}\enspace 5 題｜76／2,515（前 3\%）\par
-\vspace{3pt}
-\textbf{TOEIC（多益）}\enspace 815 分｜藍色證書｜2026 年\par
-
-\vspace{6pt}
-\cvsection{研究成果}{RESEARCH HIGHLIGHT}
-{\color{navy}\fontsize{9.8}{13}\selectfont\bfseries
-EF1-Constrained Nash Social Welfare with Identical Additive Valuations: Complexity, Guarantees, and Experiments\par}
-\vspace{4pt}
-\textbf{第一作者}\enspace\textcolor{muted}{｜2026｜預印本；已投稿 TAAI 2026，審查中}\par
-\vspace{3pt}
-\textbf{主題：}本研究以不可分割物品分配為場景，同時追求 EF1 公平與 Nash Social Welfare（NSW），從理論界線一路做到可執行的學習式分配方法。\par
-\begin{itemize}
-\item \textbf{回答公平的代價：}證明問題為 strongly NP-complete；即使要求 EF1，仍保證至少保留最優 NSW 的 \textbf{69.2\%}，而當單一物品相對夠小時，效率更會\textbf{趨近最優}。
-\item \textbf{讓公平能逐步維持：}證明在 identical valuations 下，每次將新物品分給目前效用最低者，即可在整個分配過程中持續滿足 EF1。
-\item \textbf{把定理變成模型保證：}提出 PriorityNet，以 PPO 學習分配策略，並用 action mask 排除不公平動作；\textbf{公平由機制保證，模型專注提升福利}。
-\item \textbf{3,000 筆實例驗證：}offline／online mean normalized NSW 達 \textbf{0.9911／0.9701}；相較 LPT／greedy baseline，win-minus-loss 為 \textbf{+27.10\%／+17.87\%}，online large regime 達 \textbf{+35.40\%}。
-\end{itemize}
-\href{https://arxiv.org/abs/2609.03846}{\textbf{arXiv:2609.03846}}
 
 \vspace{5pt}
-\cvsection{專案}{SELECTED PROJECTS}
+\cvsection{檢定}
+\textbf{TOEIC（多益）}\enspace 815 分｜藍色證書｜2026 年\par
+
+\vspace{5pt}
+\cvsection{專案}
 
 \projecttitle{Pokémon TCG 決策代理人}
 {\color{muted}Transformer 模仿學習系統｜\href{https://www.kaggle.com/competitions/pokemon-tcg-ai-battle}{Kaggle PTCG AI Battle} 銀牌}\par
 \tech{PyTorch · Transformer · Pointer Network · Behavior Cloning · W\&B}
 \begin{itemize}
-\item \textbf{Kaggle 銀牌（237／6,807）：}以端到端決策代理人直接銜接官方 C++ 遊戲引擎，完成競賽部署。
-\item \textbf{準確率成果：}兩個牌組的 specialist 相對基準準確率增益達 \textbf{+20.5／+49.4 個百分點}；以 Transformer 編碼 46 個狀態 token，並為動態合法選項評分。
-\item \textbf{可擴展訓練：}以數百萬個決策點訓練，整合 memory-mapped shard、GPU 特徵處理、bfloat16、EMA 與 Muon optimizer。
+\item \textbf{Kaggle 銀牌（單人）（237／6,807）：}以 Transformer 編碼 46 個狀態 token，為動態合法選項評分，並直接銜接官方 C++ 遊戲引擎完成部署。
+\item \textbf{訓練成果：}兩個牌組的 specialist 相對基準準確率增益達 \textbf{+20.5／+49.4 個百分點}；以數百萬個決策點訓練，整合 memory-mapped shard、bfloat16、EMA 與 Muon optimizer。
 \end{itemize}
 
 \vspace{4pt}
@@ -127,21 +128,17 @@ EF1-Constrained Nash Social Welfare with Identical Additive Valuations: Complexi
 {\color{muted}動態幾何規劃與多波次策略｜\href{https://www.kaggle.com/competitions/orbit-wars}{Kaggle Orbit Wars} 銅牌}\par
 \tech{Rust · Python · 啟發式搜尋 · 動態幾何規劃 · 貪婪最佳化}
 \begin{itemize}
-\item \textbf{Kaggle 銅牌（452／4,729）：}設計自主策略代理人，在行星持續移動與敵方可能增援的環境中規劃攻防。
-\item \textbf{未來狀態規劃：}預測軌道位置並求解 ETA 攔截；以抵達時的守軍、敵方增援風險與行星產能評估攻擊價值。
-\item \textbf{即時決策與部署：}以 ROI 導向的貪婪法選擇多波次行動、保留前線防禦；採 Rust 擴充正式推論。
+\item \textbf{Kaggle 銅牌（單人）（452／4,729）：}設計自主策略代理人，在行星持續移動與敵方可能增援的環境中規劃攻防。
+\item \textbf{規劃與部署：}預測軌道位置與 ETA，以守軍、增援風險及產能評估攻擊價值；使用 ROI 導向的貪婪法選擇多波次行動，並以 Rust 擴充部署。
 \end{itemize}
 
-
-\vspace{5pt}
-\cvsection{學歷}{EDUCATION}
-\textbf{國立臺灣海洋大學}\enspace
-{\color{muted}資訊工程學系}\par
-
-\vspace{5pt}
-\cvsection{技能}{SKILLS}
-\textbf{ML／研究：}\enspace PyTorch、Transformer、PPO、W\&B、模仿學習\par
-\vspace{3pt}
-\textbf{興趣：}\enspace 啟發式搜索、Python、Rust、C/C++、Autodesk 模型建模\par
+\vspace{4pt}
+\projecttitle{Connect 4 策略代理人}
+{\color{muted}PUCT 自我對弈與監督式策略學習｜\href{https://www.kaggle.com/competitions/connectx}{Kaggle Connect X} 曾登排行榜第 1 名}\par
+\tech{Python · PyTorch · PUCT · Monte Carlo Tree Search · Supervised Learning}
+\begin{itemize}
+\item \textbf{PUCT 策略改進：}以 PUCT 驅動自我對弈，在搜尋中平衡探索與利用並持續改進落子策略；曾登 Kaggle 排行榜第 1 名。由於 Connect 4 為先手必勝遊戲，名次會隨先後手配對而波動。
+\item \textbf{400 萬筆對戰資料：}另以監督式學習訓練策略模型，使用各局面七個落子欄位的最佳價值作為學習目標；此版本亦曾登排行榜第 1 名。
+\end{itemize}
 
 \end{document}
