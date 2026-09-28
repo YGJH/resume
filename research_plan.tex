@@ -76,13 +76,12 @@
 %% ---------- 二 ----------
 \plansection{二、想研究的題目}{RESEARCH TOPICS}
 
-\subhead{1. 優化器的計算與記憶體，以及用 optimizer 幫助推論}
-卡牌專案訓練時用的是 Muon，當時只知道它比 Adam 省記憶體、收斂也不差，但它每一步都要對 momentum 矩陣做 Newton--Schulz 近似正交化，我認為或許有更有效率的方案。另一方面，這個模型推論時外面還包了一層搜尋；有些人認為 optimizer 內部其實儲存了許多關於模型與資料的知識，那是否能反過來利用這些資訊，幫助模型在推論時輸出更好的答案——這是我最想做的方向。
+\subhead{1. 含雜訊示範下的強化學習：從模仿到自我修正}
+Pokémon TCG 的對戰紀錄來自不同強度的玩家或代理人，直接做 behavior cloning 會連同錯誤決策一起學進去；但完全從零開始做強化學習，又需要大量互動。我想研究如何先利用示範建立策略，再透過環境回饋修正示範中的弱點。
 \begin{itemize}
-
-\item \textbf{優化器狀態的記憶體：}Adam 存一階與二階兩份狀態，Muon 只要一份 momentum，EMA 又額外佔一份。既有做法有 Adafactor 的因子化二階動量、8-bit optimizer state 與 GaLore 的低秩梯度投影；Muon 的差別在於多了正交化這一步，對數值精度可能更敏感，momentum 壓到 8-bit 是否仍然穩定，是可以直接驗的問題。「哪些參數走 Muon、哪些留給 Adam」目前也還是經驗規則。
-\item \textbf{用 optimizer 裡的資訊幫助推論：}optimizer 狀態不只是訓練用的暫存——Adam 的二階動量是 Fisher 資訊的粗略估計，訓練軌跡的變異也帶著「模型對哪些輸入沒把握」的訊息。SWA／SWAG 用 SGD 軌跡的平均與共變異建出後驗、K-FAC Laplace 用曲率做不確定度估計，都是這個想法的既有版本；近年 test-time training 與 Titans 這類工作，更直接把梯度更新本身變成推論的一部分。我想把它接到搜尋上：用 optimizer 留下的曲率與不確定度判斷「模型此刻的分數可不可信」，再動態決定要保留幾個候選、要往前搜多深——沒把握時多看幾個候選、多想幾步，有把握時直接出手。
-
+\item \textbf{作法：}先以合法動作遮罩下的 behavior cloning 初始化 policy，再以軌跡品質作為權重，使用 PPO 或 actor--critic 繼續訓練；比較純模仿、從零強化學習、模仿後微調，以及不區分示範品質的版本。
+\item \textbf{評估：}在 Pokémon TCG 與 Connect 4 控制低品質示範比例、對手強度與資料量，量測勝率、互動樣本數及跨牌組／跨對手泛化。
+\item \textbf{想回答的問題：}低品質示範在什麼條件下仍能加速學習？策略應在何時信任示範，何時改由環境回饋探索，才能超越示範者而不破壞已學會的行為。
 \end{itemize}
 
 \subhead{2. Harness 設計：把先驗放在模型外面能拿回多少品質}

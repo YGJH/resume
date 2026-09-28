@@ -7,8 +7,6 @@
 \usepackage{enumitem}
 \usepackage{amsmath}
 \usepackage{hyperref}
-\usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning}
 
 \setmainfont[
   Path={arial/}, Extension=.ttf,
@@ -43,13 +41,23 @@
   {\color{navy}\fontsize{13}{16.5}\selectfont\bfseries #1}\par
   \vspace{3.5pt}{\color{rulecolor}\hrule height 0.7pt}\vspace{8pt}}
 
-\usepackage{array}
-\usepackage{colortbl}
-
 \newcommand{\stage}[1]{%
   \vspace{6pt}{\color{teal}\fontsize{11}{14}\selectfont\bfseries #1}\par\vspace{2.5pt}}
-\newcommand{\gbar}{\cellcolor{teal!78}}
-\newcommand{\ghead}[1]{{\color{navy}\fontsize{9}{11}\selectfont\bfseries #1}}
+
+\newcommand{\tldrbox}[1]{%
+  \vspace{1pt}%
+  \begingroup
+  \setlength{\fboxsep}{8pt}%
+  \setlength{\fboxrule}{0.8pt}%
+  \noindent\fcolorbox{teal!38}{teal!5}{%
+    \begin{minipage}{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+      {\color{teal}\fontsize{9.2}{11}\selectfont\bfseries TL;DR}\par
+      \vspace{3pt}%
+      {\color{ink}\fontsize{10.5}{14.5}\selectfont #1}\par
+    \end{minipage}}%
+  \endgroup
+  \vspace{7pt}%
+}
 
 \begin{document}
 \color{ink}
@@ -65,82 +73,57 @@
 \vspace{2pt}
 
 %% ---------- 求學經歷 ----------
-\autosection{求學經歷與學習歷程}
+\autosection{求學經歷}
 
-我自高中開始以 C++、Python 學習演算法，大學期間持續參與程式競賽、Kaggle 與公平分配研究，取得 Kaggle Expert、NCPC 決賽佳作、TOPC 銀獎與 CPE 五題等成果。這些經驗也讓我確定未來想研究\textbf{學習式代理人如何在不完整監督、動態動作空間與安全限制下做出可靠決策}。
+% \tldrbox{在下智力不高，如果有教授願意收智力低下的學生再聯絡我，不希望浪費大家時間。}
+
+大一時，我對未來方向仍很模糊，下學期也曾因缺乏目標而停滯一段時間。之後我嘗試程式競賽，取得 NCPC 決賽佳作、TOPC 銀獎與 CPE 五題，但也發現競程並不適合成為我的主要發展方向。
+
+轉向機器學習始於 Kaggle。平台上的題目不只要求模型能力，也常涉及遊戲策略、資源配置等 domain knowledge。即使我並非每場比賽都取得好成績，這些具體問題仍讓我第一次感受到，自己設計的分析與模型能產生實際價值。討論區中不同領域的參賽者會從各自的專業提出解法，也使我接觸到競程以外的知識。我因此持續投入 Kaggle，取得 Kaggle Expert，並將方向逐步聚焦於\textbf{不完整監督、動態動作空間與安全限制下的序列決策}。
+
 
 %% ---------- 專題研究 ----------
 \autosection{專題研究}
 
-我以第一作者身分研究不可分割物品的公平分配，探討在 EF1（Envy-Free up to one item）限制下最大化 Nash Social Welfare（NSW）的效率代價與演算法。成果已整理為\href{https://arxiv.org/abs/2609.03846}{論文預印本}，並投稿 TAAI 2026 審查中。
+\begin{itemize}[leftmargin=1.35em,itemsep=3pt,topsep=1pt]
+  \item \textbf{問題：}不可分割的物品如何同時兼顧公平與整體滿意度？
+  \item \textbf{理論：}證明最佳解難以有效求得；加入公平限制後，仍可保留至少 \textbf{69.2\%} 的最佳效益。
+  \item \textbf{方法：}提出 PriorityNet 學習分配順序並排除不公平選擇；3,000 筆實驗的 normalized NSW 為 \textbf{0.9911／0.9701}。
+  \item \textbf{成果：}第一作者\href{https://arxiv.org/abs/2609.03846}{論文預印本}，投稿 TAAI 2026 審查中。
+\end{itemize}
 
-\begin{center}
-\begin{tikzpicture}[
-  node distance=4mm,
-  card/.style={draw=rulecolor,rounded corners=2pt,fill=teal!5,
-    text width=34mm,minimum height=17mm,align=center,inner sep=4pt,
-    font=\fontsize{8.5}{10.5}\selectfont},
-  flow/.style={-{Latex[length=2mm]},draw=teal,thick}]
-  \node[card] (problem) {\textbf{研究問題}\\EF1 公平限制下\\最大化 NSW};
-  \node[card,right=of problem] (theory) {\textbf{理論結果}\\strongly NP-complete\\保證至少 $69.2\%$};
-  \node[card,right=of theory] (method) {\textbf{學習方法}\\PriorityNet + PPO\\action mask 保證公平};
-  \node[card,right=of method] (result) {\textbf{3,000 筆實驗}\\offline / online\\$0.9911 / 0.9701$};
-  \draw[flow] (problem) -- (theory);
-  \draw[flow] (theory) -- (method);
-  \draw[flow] (method) -- (result);
-\end{tikzpicture}
-\end{center}
+%% ---------- 專案經驗 ----------
+\autosection{專案經驗與研究問題}
 
-我證明問題為 strongly NP-complete，且 EF1 分配至少保留最佳 NSW 的 $e^{-1/e}\approx0.692$；物品足夠小時，保證值會趨近最優。我也提出 PriorityNet，以 PPO 學習分配優先序，並用 action mask 保證公平。在 3,000 筆 offline／online 實例中，mean normalized NSW 達 \textbf{0.9911／0.9701}。這項工作使我確立了對\textbf{結構化決策、模仿學習與強化學習}的興趣。
-
-%% ---------- 背景與興趣 ----------
-\autosection{背景與興趣}
-
-公平分配、卡牌遊戲與動態幾何策略看似不同，實際上都面對同一個問題：\textbf{序列很長、監督不完整，且合法動作會隨狀態改變}。
-
-\begin{center}
-\begin{tikzpicture}[
-  node distance=5mm and 6mm,
-  exp/.style={draw=rulecolor,rounded corners=2pt,fill=navy!3,
-    text width=43mm,minimum height=19mm,align=center,inner sep=4pt,
-    font=\fontsize{8.3}{10.3}\selectfont},
-  question/.style={draw=teal,rounded corners=2pt,fill=teal!8,
-    text width=139mm,align=center,inner sep=5pt,
-    font=\fontsize{8.8}{11}\selectfont\bfseries},
-  flow/.style={-{Latex[length=2mm]},draw=teal,thick}]
-  \node[exp] (fair) {\textbf{公平分配研究}\\EF1 action mask\\理論保證 + PPO};
-  \node[exp,right=of fair] (ptcg) {\textbf{Pokémon TCG}\\動態合法動作\\Transformer 模仿學習};
-  \node[exp,right=of ptcg] (orbit) {\textbf{Connect 4／Orbit Wars}\\PUCT、ETA 與規劃\\推論期搜尋};
-  \node[question,below=8mm of ptcg] (q) {研究問題：如何結合有限／含雜訊的示範、結構約束與推論期規劃，\\提升代理人的資料效率、決策品質與可靠性？};
-  \draw[flow] (fair.south) -- (q.north west);
-  \draw[flow] (ptcg.south) -- (q.north);
-  \draw[flow] (orbit.south) -- (q.north east);
-\end{tikzpicture}
-\end{center}
-
-在 Pokémon TCG 專案中，我以 Transformer 編碼狀態，並用 pointer-style head 評分動態合法動作。兩個牌組的 specialist 相對基準準確率提升 \textbf{20.5／49.4 個百分點}，部署至官方 C++ 引擎後獲 Kaggle 銀牌（237／6,807）。這也讓我注意到 behavior cloning 會一併學入品質較差的示範。
-
-Orbit Wars 以軌道、ETA 與 ROI 進行多波次規劃，並用 Rust 部署，獲 Kaggle 銅牌（452／4,729）。Connect 4 則以 PUCT 自我對弈，以及 400 萬筆對戰資料的監督式學習建立策略，兩種版本都曾登 Kaggle 排行榜第 1 名。這些經驗讓我體會到，結構約束能縮小學習問題，搜尋則能補足單次預測；未來我希望研究\textbf{弱監督模仿學習、多代理人強化學習與推論期規劃}。
+\begin{itemize}[leftmargin=1.35em,itemsep=3pt,topsep=1pt]
+  \item \textbf{Pokémon TCG：}以 Transformer 與 pointer-style head 處理動態合法動作；準確率提升 \textbf{20.5／49.4 個百分點}，獲 Kaggle 銀牌（237／6,807）。
+  \item \textbf{Orbit Wars：}以 ETA、ROI 規劃艦隊並用 Rust 部署，獲 Kaggle 銅牌（452／4,729）。
+  \item \textbf{Connect 4：}以 PUCT 自我對弈及 400 萬筆資料訓練策略，兩種版本皆曾登排行榜第 1 名。
+  \item \textbf{研究問題：}如何從含雜訊示範學習，並以結構約束及有限預算搜尋改善決策？
+\end{itemize}
 
 %% ---------- 讀書計畫 ----------
 \newpage
 \autosection{讀書計畫}
 
-我希望在國立陽明交通大學聚焦於：\textbf{當示範有限、回饋含糊或資料跨域時，如何學得可靠政策，並用結構約束與推論期規劃改善決策？}以下四位教授的研究與我的經驗最為接近。
+\stage{修課與研究時程}
+\begin{itemize}[leftmargin=1.35em,itemsep=2pt,topsep=2pt]
+  \item \textbf{入學前：}補強數值線性代數與最佳化，理解 Muon 的 Newton--Schulz 正交化及 preconditioner；閱讀 Shampoo／SOAP、Adafactor、8-bit optimizer state、GaLore，以及 SWA／SWAG、Laplace approximation、test-time training；比較 Mamba 等 state-space models 與 Transformer 的長序列能力、推論效率及記憶體成本。
+  \item \textbf{碩一上：}修習機器學習、最佳化、平行計算與 GPU 程式設計；復現一篇相關論文，並將 Pokémon TCG、Connect 4 或 Orbit Wars 整理成可重複的測試平台。
+  \item \textbf{碩一下：}完成文獻整理、畢業學分與初步實驗，再依修課及實作結果，從弱監督模仿學習、推論期搜尋或不確定環境下的多代理人強化學習中確定題目。
+  \item \textbf{碩二：}完成主要實驗、消融、多組 seed 與失敗案例分析。搜尋方向報告準確率、top-$k$ recall、校準誤差與接上搜尋後的表現；多代理人方向報告任務收益及限制違反率，並完成論文投稿。
+\end{itemize}
 
-\stage{蔣兆凱助理教授｜從含糊回饋中恢復可信示範}
-我對蔣兆凱教授的弱監督學習研究很感興趣。NeurIPS 2023 論文 \href{https://proceedings.neurips.cc/paper_files/paper/2023/file/96e35b532b4932a86cce8c929ff3f960-Paper-Conference.pdf}{\textit{Imitation Learning from Vague Feedback}} 從只能區分品質差距明顯的軌跡中恢復專家政策，與我的 Pokémon TCG 專案直接相關。未來我想研究\textbf{動態合法動作空間下的 vague-feedback imitation learning}，結合合法動作遮罩與軌跡品質估計，評估不同標註成本及雜訊比例下的樣本效率與跨牌組泛化。
+% \stage{研究方向與實驗室期待}
+% 依目前的研究興趣，我特別關注以下教授的研究方向；若有合適機會，希望能加入相關實驗室，先從論文重現與既有計畫參與開始，再依指導方向逐步確定題目。
 
-\stage{丁羅邦芸助理教授｜動態環境中的多代理人配置與協作}
-丁羅邦芸教授在 PAKDD 2024 的 \href{https://link.springer.com/chapter/10.1007/978-981-97-2262-4_23}{\textit{Multi-agent Reinforcement Learning for Online Placement of Mobile EV Charging Stations}} 研究動態環境中的多代理人配置，與 Orbit Wars 的移動目標、資源分配和 ETA 規劃相近。我想把 ETA 與 ROI 作為 model-based prior，研究\textbf{集中訓練、分散執行的受限多代理人策略}，並在預測誤差、通訊受限與代理人數量改變時評估其穩定性。
+% \stage{蔣兆凱助理教授｜從含糊回饋中恢復可信示範}
+% NeurIPS 2023 論文 \href{https://proceedings.neurips.cc/paper_files/paper/2023/file/96e35b532b4932a86cce8c929ff3f960-Paper-Conference.pdf}{\textit{Imitation Learning from Vague Feedback}} 從只能區分品質差距明顯的軌跡中恢復專家政策。這提供了延伸 Pokémon TCG 的可能方向：在動態合法動作空間中結合合法動作遮罩與軌跡品質估計，觀察標註成本、雜訊比例與跨牌組泛化的關係。
 
-\stage{謝秉均副教授｜推論期規劃、穩健性與跨域模仿學習}
-謝秉均教授的 \href{https://arxiv.org/abs/2605.09638}{\textit{Plan2Cleanse}}、\href{https://proceedings.iclr.cc/paper_files/paper/2026/hash/00ffe234ea4ea394a8a4d8e29804641e-Abstract-Conference.html}{\textit{Test-Time Alignment via Textual Model Predictive Control}} 與 \href{https://arxiv.org/abs/2602.10793}{\textit{Semi-Supervised Cross-Domain Imitation Learning}}，分別涉及測試時規劃、對齊與跨域模仿學習，和我的搜尋及含雜訊示範經驗相符。我想研究\textbf{結構化動作空間中的 test-time planning}，由 policy 提出候選動作，再用短視野或 Monte-Carlo planning 重排，分析搜尋預算與跨域資料量對效能及安全性的影響。
+% \stage{謝秉均副教授｜推論期規劃、穩健性與跨域模仿學習}
+% \href{https://arxiv.org/abs/2605.09638}{\textit{Plan2Cleanse}}、\href{https://proceedings.iclr.cc/paper_files/paper/2026/hash/00ffe234ea4ea394a8a4d8e29804641e-Abstract-Conference.html}{\textit{Test-Time Alignment via Textual Model Predictive Control}} 與 \href{https://arxiv.org/abs/2602.10793}{\textit{Semi-Supervised Cross-Domain Imitation Learning}} 分別處理測試時規劃、對齊與跨域模仿學習。這些工作與我的搜尋及含雜訊示範經驗相接，可延伸至結構化動作空間中的候選動作生成與有限預算重排。
 
-\stage{吳毅成特聘教授｜遊戲代理人、搜尋與行為評估}
-我也對吳毅成教授以遊戲研究強化學習與規劃的方法感興趣。\href{https://arxiv.org/abs/2603.18994}{\textit{Evaluating Game Difficulty in Tetris Block Puzzle}} 使用 Stochastic Gumbel AlphaZero，在有限模擬預算下評估規則難度，與我的 Connect 4 PUCT 搜尋及 Orbit Wars 規劃經驗直接相關。\href{https://rlg.iis.sinica.edu.tw/papers/MAQ}{\textit{Learning Human-Like RL Agents Through Trajectory Optimization With Action Quantization}} 以軌跡最佳化及 action quantization 學習接近人類的策略，也呼應 Pokémon TCG 的模仿學習與動作結構。\href{https://rlg.iis.sinica.edu.tw/papers/werewolf-accusation-benchmark}{\textit{Do LLMs Trust the Accuser or the Accusation?}} 不只看遊戲勝負，而是分析訊息造成的 belief shift，讓我注意到代理人也需要更細緻的過程評估。我希望延伸到\textbf{有限搜尋預算下的策略學習與評估}，比較 action abstraction、搜尋深度與示範資料對決策品質的影響。
-
-\stage{預計執行方式與研究產出}
-入學後第一學期，我會選定一條主線重現相關論文，並將 Pokémon TCG、Connect 4 或 Orbit Wars 整理成可重複的測試平台；第二學期完成問題定義、baseline 與初步實驗；碩二進行消融、多組 seed 與失敗案例分析，依題目投稿 NeurIPS／ICML／ICLR、AAMAS／PAKDD 或 TMLR。我希望最後能清楚說明學習、規劃與機制保證各自適用的範圍。
+% \stage{吳毅成特聘教授｜遊戲代理人、搜尋與行為評估}
+% \href{https://arxiv.org/abs/2603.18994}{\textit{Evaluating Game Difficulty in Tetris Block Puzzle}} 探討有限模擬預算下的規則難度；\href{https://rlg.iis.sinica.edu.tw/papers/MAQ}{\textit{Learning Human-Like RL Agents Through Trajectory Optimization With Action Quantization}} 與 \href{https://rlg.iis.sinica.edu.tw/papers/werewolf-accusation-benchmark}{\textit{Do LLMs Trust the Accuser or the Accusation?}} 則涉及行為學習與過程評估。這些方向與 Connect 4、Pokémon TCG 的搜尋及模仿學習經驗相近，我希望進一步了解搜尋預算、動作抽象與示範資料對策略表現的影響。
 
 \end{document}
